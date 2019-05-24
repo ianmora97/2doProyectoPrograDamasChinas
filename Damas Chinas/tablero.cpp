@@ -9,6 +9,7 @@ tablero::tablero(){
 		}
 	}
 }
+
 tablero::~tablero(){}
 
 string tablero::printTablero(){
