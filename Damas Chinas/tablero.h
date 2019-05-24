@@ -6,7 +6,7 @@ class tablero{
 public:
 	tablero();
 	~tablero();
-	virtual string printTablero();
+	virtual void printTablero();
 	virtual void darValor();
 private:
 	char fichas[8][8];

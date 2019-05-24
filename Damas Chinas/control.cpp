@@ -1,14 +1,14 @@
 #include "control.h"
-#include "control.h"
 
-control::control()
-{
-}
+control::control(){}
+control::~control(){}
 
-control::~control()
-{
-}
 
-void control::menu(){
+void control::options() {
+	
+
+
+	tablero* tab = new tablero;
+	tab->printTablero();
 
 }

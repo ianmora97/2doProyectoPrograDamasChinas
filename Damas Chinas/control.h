@@ -1,9 +1,9 @@
 #pragma once
+#include "tablero.h"
 class control{
 public:
 	control();
 	~control();
-	void menu();
-
+	virtual void options();
 };
 
