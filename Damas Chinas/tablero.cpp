@@ -52,12 +52,19 @@ void tablero::printTablero(){
 	}
 	color(15);
 }
-void tablero::darValor() {
-
-	for (int i = 0; i < tam; i++) {
-		for (int j = 0; j < tam; j++) {
-
-			fichas[i][j];
+bool tablero::existe(int f, int c) { return ((f - 1 < 8 && f - 1 >= 0) && (c-1 < 8 && c-1 >= 0)); }
+bool tablero::movidaLegal(int f, int c) { return (0); }
+void tablero::agregar(char f, int fila, int columna) {
+	if (existe(fila,columna)) {
+		if (fichas[fila-1][columna-1] == ' ') {
+			fichas[fila - 1][columna - 1] = f;
+		}
+	}
+}
+void tablero::quitar(int f,int c) {
+	if (existe(f,c)) {
+		if (fichas[f-1][c-1] != ' ') {
+			fichas[f - 1][c - 1] = ' ';
 		}
 	}
 }

@@ -11,6 +11,7 @@ public:
 	virtual void setPuntaje(int p);
 	virtual string getNombre() const;
 	virtual int getPuntaje() const;
+	virtual string toString();
 private:
 	string nombre;
 	int puntaje;

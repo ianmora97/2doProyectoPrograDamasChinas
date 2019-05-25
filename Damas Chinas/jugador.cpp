@@ -18,3 +18,9 @@ string jugador::getNombre() const{
 int jugador::getPuntaje() const{
 	return puntaje;
 }
+string jugador::toString() {
+	stringstream s;
+	s << nombre << endl;
+	s << puntaje << endl;
+	return s.str();
+}

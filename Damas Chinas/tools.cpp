@@ -33,4 +33,6 @@ int checkInt(int min, int max) {
 	return opc;
 }
 
-
+void pauseCorner() {
+	color(12); gotoxy(90, 38); cout << "Continuar..."; getchar();
+}

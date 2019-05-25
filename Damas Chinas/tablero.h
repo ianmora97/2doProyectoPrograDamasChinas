@@ -7,7 +7,10 @@ public:
 	tablero();
 	~tablero();
 	virtual void printTablero();
-	virtual void darValor();
+	virtual void agregar(char,int,int);
+	virtual void quitar(int,int);
+	virtual bool existe(int,int);
+	virtual bool movidaLegal(int,int);
 private:
 	char fichas[8][8];
 	int tam, cant;
