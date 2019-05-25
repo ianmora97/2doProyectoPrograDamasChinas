@@ -88,11 +88,13 @@ void control::printMenu() {
 void control::options() {
 	bool menu = true;
 	int opc;
-	
+	int contador_turnos = 0;
+	bool juego = true;
+
 	tablero* _tablero = new tablero;
 	
 	jugador* p1;
-	jugador* p2;
+
 	
 	string nombre;
 
@@ -107,36 +109,131 @@ void control::options() {
 			cout << "Digite el nombre del Jugador 1 \n> ";
 			getline(cin, nombre, END);
 			p1 = new jugador(nombre);
-			cout << "Digite el nombre del Jugador 2 \n> ";
-			getline(cin, nombre, END);
-			p2 = new jugador(nombre);
+			
+			pauseCorner();
+			while (juego) {
+				if (contador_turnos % 2 == 0) {
+					cls();
+					_tablero->printTablero();
+					cout << endl << endl;
+					int fp = 0, cp = 0;
+					int fm, cm;
+					bool tu = true;
+					int verif = 0;
+					while (tu) {
+						if (contador_turnos == 0) {
+							fm = 6;
+							cout << "Digite la columna de la ficha a mover > ";
+							cm = checkInt(1, 8);
+							tu = false;
+						}
+						else {
+							cout << "Digite la fila de la ficha a mover > ";
+							fm = checkInt(1, 8);
+							cout << "Digite la columna de la ficha a mover > ";
+							cm = checkInt(1, 8);
+							if (_tablero->getFicha(fm - 1, cm - 1) == ' ') {
+								verif = 1;
+								tu = false;
+							}
+							if (_tablero->getFicha(fm - 1, cm + 1) == ' ') {
+								verif = 2;
+								tu = false;
+							}
+							if(_tablero->getFicha(fm - 1, cm - 1) == ' ' && _tablero->getFicha(fm - 1, cm + 1) == ' '){
+								verif = 3;
+								tu = false;
+							}
+						}
+					}
+					if (_tablero->getFicha(fm,cm) == FELIZ) {
+						int a;
+						if ((cm != 1 && cm != 8) && verif == 3) {
+							cout << "Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "[2] " << fm - 1 << ", " << cm + 1 << "  > ";
+							a = checkInt(1, 2);
+						}
+						else if ((cm != 1 && cm != 8)) {
+							if (verif == 2) {
+								cout << "Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << "  > ";
+								a = checkInt(2, 2);
+							}
+							else if (verif == 1) {
+								cout << "Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
+								a = checkInt(1, 1);
+							}
+							else {
+								cout << "Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "[2] " << fm - 1 << ", " << cm + 1 << "  > ";
+								a = checkInt(1, 2);
+							}
+						}
+						else if((cm == 1 || cm == 8)){
+							if (cm == 1 || verif == 2) {
+								cout << "Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << "  > ";
+								a = checkInt(2, 2);
+							}
+							else if(cm == 8 || verif == 1){
+								cout << "Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
+								a = checkInt(1, 1);
+							}
+						}
+						
+						switch (a){
+						case 1:
+							fp = fm - 1;
+							cp = cm - 1;
+							break;
+						default:
+							fp = fm - 1;
+							cp = cm + 1;
+							break;
+						}
+					}
+					else {
+						
+					
+					}
 
-			cout << p1->toString();
-			cout << p2->toString();
-			
-			pauseCorner();
-			
-			cls();
-			_tablero->printTablero();
-			cout << endl << endl;
-			cout << "Digite la fila de la ficha a mover > ";
-			int fm;
-			fm = checkInt(0,8);
-			cout << "Digite la columna de la ficha a mover > ";
-			int cm;
-			cm = checkInt(0, 8);
-			cout << "Digite la fila en la que quiere mover la ficha >";
-			int fp;
-			fp = checkInt(0,8);
-			cout << "Digite la columna en la que quiere mover la ficha >";
-			int cp;
-			cp = checkInt(0, 8);
-			
-			_tablero->agregar('x', fp, cp);
-			_tablero->quitar(fm,cm);
-			cls();
-			_tablero->printTablero();
-			pauseCorner();
+					_tablero->agregar(FELIZ, fp, cp);
+					_tablero->quitar(fm, cm);
+					cls();
+					_tablero->printTablero();
+					pauseCorner();
+				}
+				else {
+					//computadora
+					if (contador_turnos == 1) {
+						bool co = true;
+						int cr;
+						do {
+							cr = 1 + rand() % 8;
+							if ((cr % 2 != 0)) {
+								co = false;
+							}
+						} while (co);
+						int r;
+						co = true;
+						do {
+							r = 1 + rand() % 8;
+							if ((r % 2 == 0) && (r - 1 == cr || r + 1 == cr)) {
+								co = false;
+							}
+						} while (co);
+						color(10); gotoxy(1,20); cout << "\nAnalizando jugada ...\n";
+						for (int i = 0; i < 3; i++) {
+							Sleep(1000);
+						}
+						_tablero->agregar(TRISTE, 4, r);
+						_tablero->quitar(3,cr);
+						cls();
+						_tablero->printTablero();
+						pauseCorner();
+					}
+					else {
+
+					}
+				}
+				contador_turnos++;
+			}
 			cls();
 			break;
 		case 2:

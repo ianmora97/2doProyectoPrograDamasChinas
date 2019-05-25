@@ -7,15 +7,15 @@ tablero::tablero(){
 		for (int j = 0; j < tam; j++) {
 			if (i < 3) {
 				if ((i+j)%2 == 0) {
-					fichas[i][j] = 'o';
+					fichas[i][j] = TRISTE;
 				}
 				else {
 					fichas[i][j] = ' ';
 				}
 			}
 			else if (i > 4) {
-				if ((i + j) % 2 != 0) {
-					fichas[i][j] = 'x';
+				if ((i + j) % 2 == 0) {
+					fichas[i][j] = FELIZ;
 				}
 				else {
 					fichas[i][j] = ' ';
@@ -42,18 +42,31 @@ void tablero::printTablero(){
 		color(11);
 		for (int j = 0; j < tam; j++) {
 			if ((j+i)%2 == 0) {
-				color(252); cout << " " << fichas[i][j] << "  ";
+				if (fichas[i][j] == TRISTE) {
+					color(252); cout << " " << fichas[i][j] << "  ";
+				}
+				else if (fichas[i][j] == FELIZ) {
+					color(249); cout << " " << fichas[i][j] << "  ";
+				}
+				else {
+					color(255); cout << " " << fichas[i][j] << "  ";
+				}
 			}
 			else{
-				color(9); cout << " " << fichas[i][j] << "  ";
+				color(1); cout << " " << fichas[i][j] << "  ";
 			}
 		}
-		cout << endl<<endl;
+		cout << endl;
+		
+		cout << endl;
 	}
 	color(15);
 }
 bool tablero::existe(int f, int c) { return ((f - 1 < 8 && f - 1 >= 0) && (c-1 < 8 && c-1 >= 0)); }
 bool tablero::movidaLegal(int f, int c) { return (0); }
+char tablero::getFicha(int f, int c){
+	return fichas[f-1][c-1];
+}
 void tablero::agregar(char f, int fila, int columna) {
 	if (existe(fila,columna)) {
 		if (fichas[fila-1][columna-1] == ' ') {

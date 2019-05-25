@@ -11,6 +11,8 @@
 #define END '\n'
 #define DAMA_X 'B'
 #define DAMA_O 'N'
+#define TRISTE 'O'
+#define FELIZ 'X'
 
 enum MyEnum{
 
