@@ -171,9 +171,17 @@ void control::options() {
 								cout << "Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << "  > ";
 								a = checkInt(2, 2);
 							}
-							else if(cm == 8 || verif == 1){
+							if (cm == 1 && verif == 1) {
 								cout << "Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
 								a = checkInt(1, 1);
+							}
+							if(cm == 8 || verif == 1){
+								cout << "Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
+								a = checkInt(1, 1);
+							}
+							if (cm == 8 && verif == 2) {
+								cout << "Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << "  > ";
+								a = checkInt(2, 2);
 							}
 						}
 						
