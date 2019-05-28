@@ -133,33 +133,99 @@ void control::options() {
 							cout << "Digite la columna de la ficha a mover > ";
 							cm = checkInt(1, 8);
 							if (_tablero->getFicha(fm - 1, cm - 1) == ' ') {
-								verif = 1;
+								verif = 1; //hay campo arriba izquierda
 								tu = false;
 							}
 							if (_tablero->getFicha(fm - 1, cm + 1) == ' ') {
-								verif = 2;
+								verif = 2; //hay campo arriba derecha
 								tu = false;
 							}
 							if(_tablero->getFicha(fm - 1, cm - 1) == ' ' && _tablero->getFicha(fm - 1, cm + 1) == ' '){
-								verif = 3;
+								verif = 3; //hay campo arriba en los 2 lados
+								tu = false;
+							}
+							if (_tablero->getFicha(fm - 2, cm - 2) == ' ' && _tablero->getFicha(fm - 1, cm - 1) == COMPU) {
+								verif = 4; //hay campo para comer y seguir
+								tu = false;
+							}
+							if (_tablero->getFicha(fm - 2, cm + 2) == ' ' && _tablero->getFicha(fm - 1, cm + 1) == COMPU) {
+								verif = 5; //hay campo para comer y seguir
+								tu = false;
+							}
+							if (_tablero->getFicha(fm - 2, cm - 2) == ' ' && _tablero->getFicha(fm - 1, cm - 1) == COMPU && _tablero->getFicha(fm - 1, cm + 1) == ' ') {
+								verif = 6; //hay campo para comer y seguir pero hay un campo a la derecha
+								tu = false;
+							}
+							if (_tablero->getFicha(fm - 2, cm + 2) == ' ' && _tablero->getFicha(fm - 1, cm + 1) == COMPU && _tablero->getFicha(fm - 1, cm - 1) == ' ') {
+								verif = 7; //hay campo para comer y seguir pero hay un campo a la izquierda
 								tu = false;
 							}
 						}
 					}
-					if (_tablero->getFicha(fm,cm) == FELIZ) {
-						int a;
+					int a = 0;
+					if (_tablero->getFicha(fm,cm) == PLAYER_1) {
 						if ((cm != 1 && cm != 8) && verif == 3) {
 							cout << "Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "[2] " << fm - 1 << ", " << cm + 1 << "  > ";
 							a = checkInt(1, 2);
 						}
 						else if ((cm != 1 && cm != 8)) {
-							if (verif == 2) {
+							if (verif == 2) { //mueve hacia la derecha
 								cout << "Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << "  > ";
 								a = checkInt(2, 2);
 							}
-							else if (verif == 1) {
+							else if (verif == 1) { //mueve hacia la izquierda
 								cout << "Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
 								a = checkInt(1, 1);
+							}
+							else if (verif == 4) { //come hacia la izquierda
+								cout << "Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "  > ";
+								a = checkInt(3, 3);
+							}
+							else if (verif == 5) { //come hacia la izquierda
+								cout << "Moverla hacia:\n[4] " << fm - 2 << ", " << cm + 2 << "  > ";
+								a = checkInt(4, 4);
+							}
+							else if (verif == 6) { //hay campo para comer y seguir hacia la derecha pero hay un campo a la izquierda
+								cout << "Moverla hacia:\n[4] " << fm - 2 << ", " << cm + 2 << TAB << "[2] " << fm - 1 << ", " << cm - 1 << "  > ";
+								bool ab=true;
+								while (ab) {
+									if (!(cin>>a)) {
+										cin.ignore();
+										cin.clear();
+									}
+									else {
+										if (a == 4 || a == 2) {
+											cin.ignore();
+											cin.clear();
+											ab = false;
+										}
+										else {
+											cin.ignore();
+											cin.clear();
+										}
+									}
+								}
+							}
+							else if (verif == 7) { //hay campo para comer y seguir hacia la izquierda pero hay un campo a la derecha
+								cout << "Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "[1] " << fm - 1 << ", " << cm + 1 << "  > ";
+								bool ab = true;
+								while (ab) {
+									if (!(cin >> a)) {
+										cin.ignore();
+										cin.clear();
+									}
+									else {
+										if (a == 5 || a == 1) {
+											cin.ignore();
+											cin.clear();
+											ab = false;
+										}
+										else {
+											cin.ignore();
+											cin.clear();
+										}
+									}
+								}
 							}
 							else {
 								cout << "Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "[2] " << fm - 1 << ", " << cm + 1 << "  > ";
@@ -183,26 +249,50 @@ void control::options() {
 								cout << "Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << "  > ";
 								a = checkInt(2, 2);
 							}
+							else if ( cm == 8 && verif == 4) { //come hacia la izquierda
+								cout << "Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "  > ";
+								a = checkInt(3, 3);
+							}
+							else if (verif == 5 && cm == 1) { //come hacia la derecha
+								cout << "Moverla hacia:\n[4] " << fm - 2 << ", " << cm + 2 << "  > ";
+								a = checkInt(4, 4);
+							}
 						}
-						
 						switch (a){
 						case 1:
 							fp = fm - 1;
 							cp = cm - 1;
 							break;
-						default:
+						case 2:
 							fp = fm - 1;
 							cp = cm + 1;
+							break;
+						case 3:
+							fp = fm - 2;
+							cp = cm - 2;
+							break;
+						case 4:
+							fp = fm - 2;
+							cp = cm + 2;
+							break;
+						default:
 							break;
 						}
 					}
 					else {
-						
-					
 					}
-
-					_tablero->agregar(FELIZ, fp, cp);
-					_tablero->quitar(fm, cm);
+					_tablero->agregar(PLAYER_1, fp, cp);
+					if (a == 3) {
+						_tablero->quitar(fm, cm);
+						_tablero->quitar(fm - 1, cm - 1);
+					}
+					if (a == 4) {
+						_tablero->quitar(fm, cm);
+						_tablero->quitar(fm - 1, cm + 1);
+					}
+					else {
+						_tablero->quitar(fm, cm);
+					}
 					cls();
 					_tablero->printTablero();
 					pauseCorner();
@@ -213,7 +303,7 @@ void control::options() {
 						bool co = true;
 						int cr;
 						do {
-							cr = 1 + rand() % 8;
+							cr = 3 + rand() % 7;
 							if ((cr % 2 != 0)) {
 								co = false;
 							}
@@ -230,14 +320,39 @@ void control::options() {
 						for (int i = 0; i < 3; i++) {
 							Sleep(1000);
 						}
-						_tablero->agregar(TRISTE, 4, r);
+						_tablero->agregar(COMPU, 4, r);
 						_tablero->quitar(3,cr);
 						cls();
 						_tablero->printTablero();
 						pauseCorner();
 					}
 					else {
-
+						bool co = true;
+						int cr,fr;
+						do {
+							cr = 1 + rand() % 8;
+							fr = 1 + rand() % 8;
+							if ((cr % 2 != 0)) {
+								co = false;
+							}
+						} while (co);
+						int r;
+						co = true;
+						do {
+							r = 1 + rand() % 8;
+							if ((r % 2 == 0) && (r - 1 == cr || r + 1 == cr)) {
+								co = false;
+							}
+						} while (co);
+						color(10); gotoxy(1, 20); cout << "\nAnalizando jugada ...\n";
+						for (int i = 0; i < 3; i++) {
+							Sleep(1000);
+						}
+						_tablero->agregar(COMPU, 4, r);
+						_tablero->quitar(3, cr);
+						cls();
+						_tablero->printTablero();
+						pauseCorner();
 					}
 				}
 				contador_turnos++;

@@ -11,8 +11,8 @@
 #define END '\n'
 #define DAMA_X 'B'
 #define DAMA_O 'N'
-#define TRISTE 'O'
-#define FELIZ 'X'
+#define COMPU 'O'
+#define PLAYER_1 'X'
 
 enum MyEnum{
 
