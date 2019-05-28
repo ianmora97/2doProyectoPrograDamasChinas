@@ -34,7 +34,7 @@ void tablero::printTablero(){
 	cout << "\n";
 	cout << "    ";
 	for (int i = 1; i <= 8; i++) {
-		color(13); cout << "  " << i << " ";
+		color(13); cout << "  " << i << " "; // 
 	}
 	cout << "\n\n";
 	for (int i = 0; i < tam; i++) {
