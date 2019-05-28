@@ -1,7 +1,7 @@
 #include "control.h"
 
-control::control(){}
-control::~control(){}
+control::control() {}
+control::~control() {}
 void control::printMenu() {
 	system("cls");
 	color(15);
@@ -92,24 +92,24 @@ void control::options() {
 	bool juego = true;
 
 	tablero* _tablero = new tablero;
-	
+
 	jugador* p1;
 
-	
+
 	string nombre;
 
 
 	while (menu) {
 		printMenu();
-		opc = checkInt(0,4);
-		switch (opc){
+		opc = checkInt(0, 4);
+		switch (opc) {
 		case 1:
 			cls();
 
 			cout << "Digite el nombre del Jugador 1 \n> ";
 			getline(cin, nombre, END);
 			p1 = new jugador(nombre);
-			
+
 			pauseCorner();
 			while (juego) {
 				if (contador_turnos % 2 == 0) {
@@ -423,12 +423,12 @@ void control::options() {
 								co = false;
 							}
 						} while (co);
-						color(10); gotoxy(1,20); cout << "\nAnalizando jugada ...\n";
+						color(10); gotoxy(1, 20); cout << "\nAnalizando jugada ...\n";
 						for (int i = 0; i < 3; i++) {
-							Sleep(1000);
+							Sleep(400);
 						}
 						_tablero->agregar(TRISTE, 4, r);
-						_tablero->quitar(3,cr);
+						_tablero->quitar(3, cr);
 						cls();
 						_tablero->printTablero();
 						pauseCorner();
