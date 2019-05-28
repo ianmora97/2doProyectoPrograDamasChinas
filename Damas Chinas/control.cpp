@@ -160,11 +160,11 @@ void control::options() {
 								verif = 5;									// que la de la derecha este vacia y se pueda comer a la de la izquierda
 								tu = false;
 							}
-							if (_tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 2, cm + 2) == 'O' && cm == 1) {
+							if (_tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 2, cm + 2) == 'O'&&cm == 1) {
 								verif = 8;									//cuando la de la derecha esté llena y  NO se la pueda comer
 								tu = false;									// para columnas 1 y 8
 							}
-							if (_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 2, cm - 2) == 'O' && cm == 8) {
+							if (_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 2, cm - 2) == 'O'&&cm == 8) {
 								verif = 9;									//cuando la de la ziqeuierda esté llena y  NO se la pueda comer
 								tu = false;									// para columnas 1 y 8
 							}
@@ -199,32 +199,53 @@ void control::options() {
 								verif = 10;//que tenga un bloqueo doble a ambos lados
 								tu = false;
 							}
+							if (_tablero->getFicha(fm - 1, cm + 1) == 'O'&& _tablero->getFicha(fm - 1, cm - 1) == 'O'&& _tablero->getFicha(fm - 2, cm - 2) == ' ' && cm == 7) {
+								verif = 17;
+								tu = false;
+							}
+							if (_tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 1, cm - 1) == ' ' && cm == 7) {
+								verif = 18;
+								tu = false;
+							}
+							if (_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 1, cm + 1) == ' ' && cm == 2) {
+								verif = 19;
+								tu = false;
+							}
+							if (_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 2, cm - 2) == ' ' && _tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 2, cm + 2) == ' ') {
+								verif = 20;
+								tu = false;
+							}
+							if (_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 2, cm + 2) == ' ' && cm == 2) {
+								verif = 21;
+								tu = false;
+							}
 						}
 					}
+
 					if (_tablero->getFicha(fm, cm) == FELIZ) {
 						int a = NULL;
-						if ((cm != 1 && cm != 8) && _tablero->getFicha(fm - 1, cm - 1) == ' ' && _tablero->getFicha(fm - 1, cm + 1) == ' ' && contador_turnos == 0) {
+						if ((cm != 1 && cm != 8) && _tablero->getFicha(fm - 1, cm - 1) == ' ' && _tablero->getFicha(fm - 1, cm + 1) == ' '&&contador_turnos == 0) {
 							cout << "3.1 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "[2] " << fm - 1 << ", " << cm + 1 << "  > ";
 							a = checkInt(1, 2);
 						}
-						else if (cm == 2 && verif == 16) {
+						else if (cm == 2 && verif == 11) {//////
 							cout << "11 [5]  >Esta ficha no se puede mover\n";
 							a = checkInt(5, 5);
 							cout << endl;
 
 						}
-						else if (cm == 7 && verif == 15) {
+						else if (cm == 7 && verif == 12) {/////
 							cout << "12 [5]  >Esta ficha no se puede mover\n";
 							a = checkInt(5, 5);
 							cout << endl;
 
 						}
-						else if ((cm != 1 && cm != 8) && verif == 5) {
-							cout << "12 [5]  >Esta ficha no se puede mover\n";
-							a = checkInt(5, 5);
-							cout << endl;
+						/*else if ((cm != 1 && cm != 8) && verif == 5) {
+						cout << "12 [5]  >Esta ficha no se puede mover\n";
+						a = checkInt(5, 5);
+						cout << endl;
 
-						}
+						}*/
 
 						else if ((cm != 1 && cm != 8)) {
 							if (verif == 3) {
@@ -265,18 +286,34 @@ void control::options() {
 								cout << "16 Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "  > ";
 								a = checkInt(3, 3);
 							}
+							else if (verif == 17) {
+								cout << "Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "  > ";
+								a = checkInt(3, 3);
+							}
+							else if (verif == 18) {
+								cout << "Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
+								a = checkInt(1, 1);
 
+							}
+							else if (verif == 19) {
+								cout << "Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << TAB << "  > ";
+								a = checkInt(2, 2);
+							}
+							else if (verif == 20) {
+								cout << "Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "[4] " << fm - 2 << ", " << cm + 2 << "  > ";
+								a = checkInt(3, 4);
 
+							}
 						}
 
 						else if ((cm == 1 || cm == 8)) {
-							if (cm == 1 || verif == 2) {//ahi en vez de un && es ||
+							if (cm == 1 && verif == 2) {//ahi en vez de un && es ||
 								cout << "2 || Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << "  > ";
 								a = checkInt(2, 2);
 							}
 							else
 
-								if (cm == 8 || verif == 1) {//ahi en vez de un && es ||
+								if (cm == 8 && verif == 1) {//ahi en vez de un && es ||
 									cout << "1 || Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
 									a = checkInt(1, 1);
 								}
@@ -303,28 +340,69 @@ void control::options() {
 
 
 						}
-						
-						switch (a){
+						switch (a) {
 						case 1:
 							fp = fm - 1;
 							cp = cm - 1;
+
+							_tablero->agregar(FELIZ, fp, cp);
+							_tablero->quitar(fm, cm);
+							cls();
+							_tablero->printTablero();
+							pauseCorner();
 							break;
-						default:
+						case 2:
 							fp = fm - 1;
 							cp = cm + 1;
+
+							_tablero->agregar(FELIZ, fp, cp);
+							_tablero->quitar(fm, cm);
+							cls();
+							_tablero->printTablero();
+							pauseCorner();
 							break;
+						case 3:
+							fp = fm - 2;
+							cp = cm - 2;
+
+							_tablero->agregar(FELIZ, fp, cp);
+							_tablero->quitar(fm, cm);
+							_tablero->quitar(fm - 1, cm - 1);
+							cls();
+							_tablero->printTablero();
+							pauseCorner();
+							break;
+						case 4:
+							fp = fm - 2;
+							cp = cm + 2;
+
+							_tablero->agregar(FELIZ, fp, cp);
+							_tablero->quitar(fm, cm);
+							_tablero->quitar(fm - 1, cm + 1);
+							cls();
+							_tablero->printTablero();
+							pauseCorner();
+						default: {}
+								 fp = fm;
+								 cp = cm;
+
+								 _tablero->agregar(FELIZ, fp, cp);
+								 //_tablero->quitar(fm, cm);
+								 cls();
+								 _tablero->printTablero();
+								 pauseCorner();
 						}
 					}
 					else {
-						
-					
+
+
 					}
 
-					_tablero->agregar(FELIZ, fp, cp);
+					/*_tablero->agregar(FELIZ, fp, cp);
 					_tablero->quitar(fm, cm);
 					cls();
 					_tablero->printTablero();
-					pauseCorner();
+					pauseCorner();*/
 				}
 				else {
 					//computadora
