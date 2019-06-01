@@ -218,6 +218,26 @@ void control::options() {
 								verif = 21;
 								tu = false;
 							}
+							if (_tablero->getFicha(fm - 1, cm - 1) == 'X' && _tablero->getFicha(fm - 1, cm + 1) == 'X' && cm >= 2 && cm <= 7) {
+								verif = 22; /// nuevos sabado 1 de junio
+								tu = false;
+							}
+							if ((_tablero->getFicha(fm - 1, cm - 1) == ' ') && (_tablero->getFicha(fm - 1, cm + 1) == 'X') && cm >= 2 && cm <= 7) {
+								verif = 23; /// nuevos sabado 1 de junio
+								tu = false;
+							}
+							if ((_tablero->getFicha(fm - 1, cm - 1) == 'X') && (_tablero->getFicha(fm - 1, cm + 1) == ' ') && cm >= 2 && cm <= 7) {
+								verif = 24; /// nuevos sabado 1 de junio
+								tu = false;
+							}
+							if (_tablero->getFicha(fm - 1, cm + 1) == 'X' && cm == 1) {
+								verif = 25; /// nuevos sabado 1 de junio
+								tu = false;
+							}
+							if (_tablero->getFicha(fm - 1, cm - 1) == 'X' && cm == 8) {
+								verif = 26; /// nuevos sabado 1 de junio
+								tu = false;
+							}
 						}
 					}
 
@@ -277,61 +297,81 @@ void control::options() {
 								a = checkInt(3, 3);
 							}
 							else if (verif == 17) {
-								cout << "Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "  > ";
+								cout << "17 Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "  > ";
 								a = checkInt(3, 3);
 							}
 							else if (verif == 18) {
-								cout << "Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
+								cout << "18 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
 								a = checkInt(1, 1);
-
 							}
 							else if (verif == 19) {
-								cout << "Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << TAB << "  > ";
+								cout << "19 Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << TAB << "  > ";
 								a = checkInt(2, 2);
 							}
 							else if (verif == 20) {
-								cout << "Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "[4] " << fm - 2 << ", " << cm + 2 << "  > ";
+								cout << "20 Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "[4] " << fm - 2 << ", " << cm + 2 << "  > ";
 								a = checkInt(3, 4);
-
 							}
 							else if (verif == 21) {
-								cout << "Moverla hacia:\n[4] " << fm - 2 << ", " << cm + 2 << TAB << "[4] " << "  > ";
+								cout << "21 Moverla hacia:\n[4] " << fm - 2 << ", " << cm + 2 << TAB << "[4] " << "  > ";
 								a = checkInt(3, 4);
+							}
+							else if (verif == 22) {
+								cout << "22 No se se puede mover esta ficha, se encuentra atrapada \n[5]" << TAB << "  > ";
+								a = checkInt(5, 5);
+							}
+							else if (verif == 23) {
+								cout << "23 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
+								a = checkInt(1, 1);
+							}
+							else if (verif == 24) {
+								cout << "24  Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << TAB << "  > ";
+								a = checkInt(2, 2);
 							}
 						}
 
 						else if ((cm == 1 || cm == 8)) {
 
-							if (verif == 1 || cm == 8) {//ahi en vez de un && es ||
-								cout << "1 || Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
-								a = checkInt(1, 1);
+
+							if (verif == 6) {
+								cout << "6 || Moverla hacia:\n[4] " << fm - 2 << ", " << cm + 2 << "  > ";
+								a = checkInt(4, 4);
 							}
 							else
-								if (verif == 2 || cm == 1) {//ahi en vez de un && es ||
-									cout << "2 || Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << TAB << "  > ";
-									a = checkInt(2, 2);
+								if (verif == 7) {
+									cout << "7 || Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "  > ";
+									a = checkInt(3, 3);
 								}
 								else
-									if (verif == 6) {
-										cout << "6 || Moverla hacia:\n[4] " << fm - 2 << ", " << cm + 2 << "  > ";
-										a = checkInt(4, 4);
+									if (verif == 8) {
+										cout << "8 ||[5]> ¡Esta ficha esta atrapada!\n ";
+										a = checkInt(5, 5);
 									}
 									else
-										if (verif == 7) {
-											cout << "7 || Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "  > ";
-											a = checkInt(3, 3);
+										if (verif == 9) {
+											cout << "9 ||[1] ¡Esta ficha esta atrapada!\n ";
+											a = checkInt(5, 5);
 										}
 										else
-											if (verif == 8) {
-												cout << "8 ||[5]> ¡Esta ficha esta atrapada!\n ";
+											if (verif == 25) {
+												cout << "25 ||[5] ¡Esta ficha esta atrapada!\n ";
 												a = checkInt(5, 5);
 											}
 											else
-												if (verif == 9) {
-													cout << "9 ||[1] ¡Esta ficha esta atrapada!\n ";
+												if (verif == 26) {
+													cout << "26 ||[5] ¡Esta ficha esta atrapada!\n ";
 													a = checkInt(5, 5);
 												}
-
+												else
+													if (verif == 1 || cm == 8) {//ahi en vez de un && es ||
+														cout << "1 || Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
+														a = checkInt(1, 1);
+													}
+													else
+														if (verif == 2 || cm == 1) {//ahi en vez de un && es ||
+															cout << "2 || Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << TAB << "  > ";
+															a = checkInt(2, 2);
+														}
 
 						}
 						switch (a) {
