@@ -7,7 +7,7 @@ tablero::tablero(){
 		for (int j = 0; j < tam; j++) {
 			if (i < 3) {
 				if ((i+j)%2 == 0) {
-					fichas[i][j] = TRISTE;
+					fichas[i][j] = PIEZA_O;
 				}
 				else {
 					fichas[i][j] = ' ';
@@ -15,7 +15,7 @@ tablero::tablero(){
 			}
 			else if (i > 4) {
 				if ((i + j) % 2 == 0) {
-					fichas[i][j] = FELIZ;
+					fichas[i][j] = PIEZA_X;
 				}
 				else {
 					fichas[i][j] = ' ';
@@ -42,10 +42,10 @@ void tablero::printTablero(){
 		color(11);
 		for (int j = 0; j < tam; j++) {
 			if ((j+i)%2 == 0) {
-				if (fichas[i][j] == TRISTE) {
+				if (fichas[i][j] == PIEZA_O) {
 					color(252); cout << " " << fichas[i][j] << "  ";
 				}
-				else if (fichas[i][j] == FELIZ) {
+				else if (fichas[i][j] == PIEZA_X) {
 					color(249); cout << " " << fichas[i][j] << "  ";
 				}
 				else {

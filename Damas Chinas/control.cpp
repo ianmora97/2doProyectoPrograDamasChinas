@@ -240,198 +240,315 @@ void control::options() {
 							}
 						}
 					}
-
-					if (_tablero->getFicha(fm, cm) == FELIZ) {
-						int a = NULL;
-						if ((cm != 1 && cm != 8) && _tablero->getFicha(fm - 1, cm - 1) == ' ' && _tablero->getFicha(fm - 1, cm + 1) == ' ' && contador_turnos == 0) {
-							cout << "3.1 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "[2] " << fm - 1 << ", " << cm + 1 << "  > ";
-							a = checkInt(1, 2);
-						}
-						/*else if (verif == 5) {
-							cout << "12 [5]  >Esta ficha no se puede mover\n";
-							a = checkInt(5, 5);
-							cout << endl;
-
-						}*/
-
-
-						else if ((cm > 1 && cm < 8)) {
-							if (verif == 3) {
-								cout << "3 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "[2] " << fm - 1 << ", " << cm + 1 << "  > ";
+					int verificaOtraMovida = false;
+					do {
+						if (_tablero->getFicha(fm, cm) == PIEZA_X) {
+							int a = NULL;
+							if ((cm != 1 && cm != 8) && _tablero->getFicha(fm - 1, cm - 1) == ' ' && _tablero->getFicha(fm - 1, cm + 1) == ' ' && contador_turnos == 0) {
+								cout << "3.1 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "[2] " << fm - 1 << ", " << cm + 1 << "  > ";
 								a = checkInt(1, 2);
 							}
-							else if (verif == 4) {// CUANDO HAY UNO VACIO Y SE PUEDE COMER EL DEL OTRO LADO
-								cout << "4 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << TAB << "[4] " << fm - 2 << ", " << cm + 2 << "  > ";
-								a = checkInt(1, 4);
-							}
-							else if (verif == 5) {// CUANDO HAY UNO VACIO Y SE PUEDE COMER EL DEL OTRO LADO
-								cout << "5 Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << TAB << "[3] " << fm - 2 << ", " << cm - 2 << "  > ";
-								a = checkInt(2, 3);
-							}
-							else if (verif == 10) {
-								cout << "10 [5] > No se se puede mover esta ficha, se encuentra atrapada" << endl;
+							/*else if (verif == 5) {
+								cout << "12 [5]  >Esta ficha no se puede mover\n";
 								a = checkInt(5, 5);
-							}
-							else if (verif == 11) {
-								cout << "11 [5] > Esta ficha esta atrapada, no se puede mover" << endl;
-								a = checkInt(5, 5);
-							}
-							else if (verif == 12) {
-								cout << "12 [5] > Esta ficha esta atrapada, no se puede mover" << endl;
-								a = checkInt(5, 5);
-							}
-							else if (verif == 13) {
-								cout << "13 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
-								a = checkInt(1, 1);
-							}
-							else if (verif == 14) {
-								cout << "14 Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << TAB << "  > ";
-								a = checkInt(2, 2);
-							}
-							else if (verif == 15) {
-								cout << "15 Moverla hacia:\n[4] " << fm - 2 << ", " << cm + 2 << TAB << "  > ";
-								a = checkInt(4, 4);
-							}
-							else if (verif == 16) {
-								cout << "16 Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "  > ";
-								a = checkInt(3, 3);
-							}
-							else if (verif == 17) {
-								cout << "17 Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "  > ";
-								a = checkInt(3, 3);
-							}
-							else if (verif == 18) {
-								cout << "18 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
-								a = checkInt(1, 1);
-							}
-							else if (verif == 19) {
-								cout << "19 Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << TAB << "  > ";
-								a = checkInt(2, 2);
-							}
-							else if (verif == 20) {
-								cout << "20 Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "[4] " << fm - 2 << ", " << cm + 2 << "  > ";
-								a = checkInt(3, 4);
-							}
-							else if (verif == 21) {
-								cout << "21 Moverla hacia:\n[4] " << fm - 2 << ", " << cm + 2 << TAB << "[4] " << "  > ";
-								a = checkInt(3, 4);
-							}
-							else if (verif == 22) {
-								cout << "22 No se se puede mover esta ficha, se encuentra atrapada \n[5]" << TAB << "  > ";
-								a = checkInt(5, 5);
-							}
-							else if (verif == 23) {
-								cout << "23 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
-								a = checkInt(1, 1);
-							}
-							else if (verif == 24) {
-								cout << "24  Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << TAB << "  > ";
-								a = checkInt(2, 2);
-							}
-						}
+								cout << endl;
 
-						else if ((cm == 1 || cm == 8)) {
+							}*/
 
 
-							if (verif == 6) {
-								cout << "6 || Moverla hacia:\n[4] " << fm - 2 << ", " << cm + 2 << "  > ";
-								a = checkInt(4, 4);
-							}
-							else
-								if (verif == 7) {
-									cout << "7 || Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "  > ";
+							else if ((cm > 1 && cm < 8)) {
+								if (verif == 3) {
+									cout << "3 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "[2] " << fm - 1 << ", " << cm + 1 << "  > ";
+									a = checkInt(1, 2);
+								}
+								else if (verif == 4) {// CUANDO HAY UNO VACIO Y SE PUEDE COMER EL DEL OTRO LADO
+									cout << "4 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << TAB << "[4] " << fm - 2 << ", " << cm + 2 << "  > ";
+									a = checkInt(1, 4);
+								}
+								else if (verif == 5) {// CUANDO HAY UNO VACIO Y SE PUEDE COMER EL DEL OTRO LADO
+									cout << "5 Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << TAB << "[3] " << fm - 2 << ", " << cm - 2 << "  > ";
+									a = checkInt(2, 3);
+								}
+								else if (verif == 10) {
+									cout << "10 [5] > No se se puede mover esta ficha, se encuentra atrapada" << endl;
+									a = checkInt(5, 5);
+								}
+								else if (verif == 11) {
+									cout << "11 [5] > Esta ficha esta atrapada, no se puede mover" << endl;
+									a = checkInt(5, 5);
+								}
+								else if (verif == 12) {
+									cout << "12 [5] > Esta ficha esta atrapada, no se puede mover" << endl;
+									a = checkInt(5, 5);
+								}
+								else if (verif == 13) {
+									cout << "13 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
+									a = checkInt(1, 1);
+								}
+								else if (verif == 14) {
+									cout << "14 Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << TAB << "  > ";
+									a = checkInt(2, 2);
+								}
+								else if (verif == 15) {
+									cout << "15 Moverla hacia:\n[4] " << fm - 2 << ", " << cm + 2 << TAB << "  > ";
+									a = checkInt(4, 4);
+								}
+								else if (verif == 16) {
+									cout << "16 Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "  > ";
 									a = checkInt(3, 3);
 								}
+								else if (verif == 17) {
+									cout << "17 Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "  > ";
+									a = checkInt(3, 3);
+								}
+								else if (verif == 18) {
+									cout << "18 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
+									a = checkInt(1, 1);
+								}
+								else if (verif == 19) {
+									cout << "19 Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << TAB << "  > ";
+									a = checkInt(2, 2);
+								}
+								else if (verif == 20) {
+									cout << "20 Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "[4] " << fm - 2 << ", " << cm + 2 << "  > ";
+									a = checkInt(3, 4);
+								}
+								else if (verif == 21) {
+									cout << "21 Moverla hacia:\n[4] " << fm - 2 << ", " << cm + 2 << TAB << "[4] " << "  > ";
+									a = checkInt(3, 4);
+								}
+								else if (verif == 22) {
+									cout << "22 No se se puede mover esta ficha, se encuentra atrapada \n[5]" << TAB << "  > ";
+									a = checkInt(5, 5);
+								}
+								else if (verif == 23) {
+									cout << "23 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
+									a = checkInt(1, 1);
+								}
+								else if (verif == 24) {
+									cout << "24  Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << TAB << "  > ";
+									a = checkInt(2, 2);
+								}
+							}
+
+							else if ((cm == 1 || cm == 8)) {
+
+
+								if (verif == 6) {
+									cout << "6 || Moverla hacia:\n[4] " << fm - 2 << ", " << cm + 2 << "  > ";
+									a = checkInt(4, 4);
+								}
 								else
-									if (verif == 8) {
-										cout << "8 ||[5]> ¡Esta ficha esta atrapada!\n ";
-										a = checkInt(5, 5);
+									if (verif == 7) {
+										cout << "7 || Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "  > ";
+										a = checkInt(3, 3);
 									}
 									else
-										if (verif == 9) {
-											cout << "9 ||[1] ¡Esta ficha esta atrapada!\n ";
+										if (verif == 8) {
+											cout << "8 ||[5]> ¡Esta ficha esta atrapada!\n ";
 											a = checkInt(5, 5);
 										}
 										else
-											if (verif == 25) {
-												cout << "25 ||[5] ¡Esta ficha esta atrapada!\n ";
+											if (verif == 9) {
+												cout << "9 ||[1] ¡Esta ficha esta atrapada!\n ";
 												a = checkInt(5, 5);
 											}
 											else
-												if (verif == 26) {
-													cout << "26 ||[5] ¡Esta ficha esta atrapada!\n ";
+												if (verif == 25) {
+													cout << "25 ||[5] ¡Esta ficha esta atrapada!\n ";
 													a = checkInt(5, 5);
 												}
 												else
-													if (verif == 1 || cm == 8) {//ahi en vez de un && es ||
-														cout << "1 || Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
-														a = checkInt(1, 1);
+													if (verif == 26) {
+														cout << "26 ||[5] ¡Esta ficha esta atrapada!\n ";
+														a = checkInt(5, 5);
 													}
 													else
-														if (verif == 2 || cm == 1) {//ahi en vez de un && es ||
-															cout << "2 || Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << TAB << "  > ";
-															a = checkInt(2, 2);
+														if (verif == 1 || cm == 8) {//ahi en vez de un && es ||
+															cout << "1 || Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
+															a = checkInt(1, 1);
 														}
+														else
+															if (verif == 2 || cm == 1) {//ahi en vez de un && es ||
+																cout << "2 || Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << TAB << "  > ";
+																a = checkInt(2, 2);
+															}
+
+							}
+
+							switch (a) {
+							case 1:
+								fp = fm - 1;
+								cp = cm - 1;
+
+								_tablero->agregar(PIEZA_X, fp, cp);
+								_tablero->quitar(fm, cm);
+								cls();
+								_tablero->printTablero();
+								pauseCorner();
+								break;
+							case 2:
+								fp = fm - 1;
+								cp = cm + 1;
+
+								_tablero->agregar(PIEZA_X, fp, cp);
+								_tablero->quitar(fm, cm);
+								cls();
+								_tablero->printTablero();
+								pauseCorner();
+								break;
+							case 3:
+								fp = fm - 2;
+								cp = cm - 2;
+
+								_tablero->agregar(PIEZA_X, fp, cp);
+								_tablero->quitar(fm, cm);
+								_tablero->quitar(fm - 1, cm - 1);
+								cls();
+								_tablero->printTablero();
+								pauseCorner();
+								break;
+							case 4:
+								fp = fm - 2;
+								cp = cm + 2;
+
+								_tablero->agregar(PIEZA_X, fp, cp);
+								_tablero->quitar(fm, cm);
+								_tablero->quitar(fm - 1, cm + 1);
+								cls();
+								_tablero->printTablero();
+								pauseCorner();
+								break;
+							default: {}
+								fp = fm;
+								cp = cm;
+
+								_tablero->agregar(PIEZA_X, fp, cp);
+								//_tablero->quitar(fm, cm);
+								cls();
+								_tablero->printTablero();
+								pauseCorner();
+								break;
+							}
+						}
+						else {
+
 
 						}
-						switch (a) {
-						case 1:
-							fp = fm - 1;
-							cp = cm - 1;
+						int verificar2 = 0;
+						{ //bloque de codigo que vuelve a verificar si puede mover otra vez
+							if (_tablero->getFicha(fp - 1, cp - 1) == ' ' && cp == 8) {// que la de la izquierda este vacia
+								verificar2 = 1;									// para columnas 1 y 8
+								tu = false;
+							}
+							if (_tablero->getFicha(fp - 1, cp + 1) == ' ' && cp == 1) {// que la de la derecha este vacia
+								verificar2 = 2;									// para columnas 1 y 8
+								tu = false;
+							}
+							if (_tablero->getFicha(fp - 1, cp - 1) == ' ' && _tablero->getFicha(fp - 1, cp + 1) == ' ' && cp >= 2 && cp <= 7) {
+								verificar2 = 3;									// que a los 2 laterales esten vacios
+								tu = false;
+							}
+							if ((_tablero->getFicha(fp - 1, cp - 1) == ' ') && (_tablero->getFicha(fp - 1, cp + 1) == 'O' && _tablero->getFicha(fp - 2, cp + 2) == ' ') && cp >= 2 && cp <= 6) {
+								verificar2 = 4;									// que la de la izquierda este vacia y se pueda comer a la de la derecha
+								tu = false;
+							}
+							if ((_tablero->getFicha(fp - 1, cp + 1) == ' ') && (_tablero->getFicha(fp - 1, cp - 1) == 'O' && _tablero->getFicha(fp - 2, cp - 2) == ' ') && cp >= 3 && cp <= 7) {
+								verificar2 = 5;									// que la de la derecha este vacia y se pueda comer a la de la izquierda
+								tu = false;
+							}
+							if (_tablero->getFicha(fp - 1, cp + 1) == 'O' && _tablero->getFicha(fp - 2, cp + 2) == ' ' && cp == 1) {
+								verificar2 = 6;									// que la de la derecha esté llena y se la pueda comer
+								tu = false;									// para columnas 1 y 8
+							}
+							if (_tablero->getFicha(fp - 1, cp - 1) == 'O' && _tablero->getFicha(fp - 2, cp - 2) == ' ' && cp == 8) {
+								verificar2 = 7;									// que la de la izquierda esté llena y se la pueda comer
+								tu = false;										// para columnas 1 y 8
+							}
+							if (_tablero->getFicha(fp - 1, cp + 1) == 'O' && _tablero->getFicha(fp - 2, cp + 2) == 'O' && cp == 1) {
+								verificar2 = 8;									//cuando la de la derecha esté llena y  NO se la pueda comer
+								tu = false;									// para columnas 1 y 8
+							}
+							if (_tablero->getFicha(fp - 1, cp - 1) == 'O' && _tablero->getFicha(fp - 2, cp - 2) == 'O' && cp == 8) {
+								verificar2 = 9;									//cuando la de la ziqeuierda esté llena y  NO se la pueda comer
+								tu = false;									// para columnas 1 y 8
+							}
+							if ((_tablero->getFicha(fp - 1, cp - 1) == 'O' && _tablero->getFicha(fp - 2, cp - 2) == 'O') && (_tablero->getFicha(fp - 1, cp + 1) == 'O' && _tablero->getFicha(fp - 2, cp + 2) == 'O') && cp >= 3 && cp <= 6) {
+								verificar2 = 10;//que tenga un bloqueo doble a ambos lados
+								tu = false;
+							}
+							if ((_tablero->getFicha(fp - 1, cp + 1) == 'O' && _tablero->getFicha(fp - 2, cp + 2) == 'O') && (_tablero->getFicha(fp - 1, cp - 1) == 'O') && cp == 2) {
+								verificar2 = 11;// si esta atrapada entre una negra y el borde izquierdo del tablero y un bloqueo doble a la derecha
+								tu = false;// usar solo cuando i-1==1
+							}
+							if ((_tablero->getFicha(fp - 1, cp - 1) == 'O' && _tablero->getFicha(fp - 2, cp - 2) == 'O') && (_tablero->getFicha(fp - 1, cp + 1) == 'O') && cp == 7) {
+								verificar2 = 12;// si esta atrapada entre una negra y el borde derecho del tablero y un bloqueo doble a la izquierda
+								tu = false;// usar solo cuando i+1==8
+							}
 
-							_tablero->agregar(FELIZ, fp, cp);
-							_tablero->quitar(fm, cm);
-							cls();
-							_tablero->printTablero();
-							pauseCorner();
-							break;
-						case 2:
-							fp = fm - 1;
-							cp = cm + 1;
+							if (_tablero->getFicha(fp - 1, cp - 1) == ' ' && (_tablero->getFicha(fp - 1, cp + 1) == 'O' && _tablero->getFicha(fp - 2, cp + 2) == 'O') && cp >= 2 && cp <= 6) {
+								verificar2 = 13;// que la de la izquierda este vacia  y tenga un bloqueo doble a la derecha
+								tu = false;
+							}
+							if (_tablero->getFicha(fp - 1, cp + 1) == ' ' && (_tablero->getFicha(fp - 1, cp - 1) == 'O' && _tablero->getFicha(fp - 2, cp - 2) == 'O') && cp <= 7 && cp >= 3) {
+								verificar2 = 14;// que la de la derecha este vacia  y tenga un bloqueo doble a la izquierda
+								tu = false;
 
-							_tablero->agregar(FELIZ, fp, cp);
-							_tablero->quitar(fm, cm);
-							cls();
-							_tablero->printTablero();
-							pauseCorner();
-							break;
-						case 3:
-							fp = fm - 2;
-							cp = cm - 2;
-
-							_tablero->agregar(FELIZ, fp, cp);
-							_tablero->quitar(fm, cm);
-							_tablero->quitar(fm - 1, cm - 1);
-							cls();
-							_tablero->printTablero();
-							pauseCorner();
-							break;
-						case 4:
-							fp = fm - 2;
-							cp = cm + 2;
-
-							_tablero->agregar(FELIZ, fp, cp);
-							_tablero->quitar(fm, cm);
-							_tablero->quitar(fm - 1, cm + 1);
-							cls();
-							_tablero->printTablero();
-							pauseCorner();
-							break;
-						default: {}
-								 fp = fm;
-								 cp = cm;
-
-								 _tablero->agregar(FELIZ, fp, cp);
-								 //_tablero->quitar(fm, cm);
-								 cls();
-								 _tablero->printTablero();
-								 pauseCorner();
+							}
+							if ((_tablero->getFicha(fp - 1, cp - 1) == 'O' && _tablero->getFicha(fp - 2, cp - 2) == 'O') && (_tablero->getFicha(fp - 1, cp + 1) == 'O' && _tablero->getFicha(fp - 2, cp + 2) == ' ') && cp >= 3 && cp <= 6) {
+								verificar2 = 15; //que a la izquierda tenga un bloqueo doble y que a la derecha  tenga una ficha y se la pueda comer
+								tu = false;
+							}
+							if ((_tablero->getFicha(fp - 1, cp + 1) == 'O' && _tablero->getFicha(fp - 2, cp + 2) == 'O') && (_tablero->getFicha(fp - 1, cp - 1) == 'O' && _tablero->getFicha(fp - 2, cp - 2) == ' ') && cp >= 3 && cp <= 6) {
+								verificar2 = 16; //que a la derecha tenga un bloqueo doble y que a la izquierda  tenga una ficha y se la pueda comer
+								tu = false;
+							}
+							if (_tablero->getFicha(fp - 1, cp + 1) == 'O' && _tablero->getFicha(fp - 1, cp - 1) == 'O' && _tablero->getFicha(fp - 2, cp - 2) == ' ' && cp == 7) {
+								verificar2 = 17;
+								tu = false;
+							}
+							if (_tablero->getFicha(fp - 1, cp + 1) == 'O' && _tablero->getFicha(fp - 1, cp - 1) == ' ' && cp == 7) {
+								verificar2 = 18;
+								tu = false;
+							}
+							if (_tablero->getFicha(fp - 1, cp - 1) == 'O' && _tablero->getFicha(fp - 1, cp + 1) == ' ' && cp == 2) {
+								verificar2 = 19;
+								tu = false;
+							}
+							if (_tablero->getFicha(fp - 1, cp - 1) == 'O' && _tablero->getFicha(fp - 2, cp - 2) == ' ' && _tablero->getFicha(fp - 1, cp + 1) == 'O' && _tablero->getFicha(fm - 2, cp + 2) == ' ' && cp >= 3 && cp <= 6) {
+								verificar2 = 20;
+								tu = false;
+							}
+							if (_tablero->getFicha(fp - 1, cp - 1) == 'O' && _tablero->getFicha(fp - 1, cp + 1) == 'O' && _tablero->getFicha(fp - 2, cp + 2) == ' ' && cp == 2) {
+								verificar2 = 21;
+								tu = false;
+							}
+							if (_tablero->getFicha(fp - 1, cp - 1) == 'X' && _tablero->getFicha(fp - 1, cp + 1) == 'X' && cp >= 2 && cp <= 7) {
+								verificar2 = 22; /// nuevos sabado 1 de junio
+								tu = false;
+							}
+							if ((_tablero->getFicha(fp - 1, cp - 1) == ' ') && (_tablero->getFicha(fp - 1, cp + 1) == 'X') && cp >= 2 && cp <= 7) {
+								verificar2 = 23; /// nuevos sabado 1 de junio
+								tu = false;
+							}
+							if ((_tablero->getFicha(fp - 1, cp - 1) == 'X') && (_tablero->getFicha(fp - 1, cp + 1) == ' ') && cp >= 2 && cp <= 7) {
+								verificar2 = 24; /// nuevos sabado 1 de junio
+								tu = false;
+							}
+							if (_tablero->getFicha(fp - 1, cp + 1) == 'X' && cp == 1) {
+								verificar2 = 25; /// nuevos sabado 1 de junio
+								tu = false;
+							}
+							if (_tablero->getFicha(fm - 1, cp - 1) == 'X' && cp == 8) {
+								verificar2 = 26; /// nuevos sabado 1 de junio
+								tu = false;
+							}
 						}
-					}
-					else {
-
-
-					}
+						if (verificar2 != 0) {
+							verificaOtraMovida = true;
+						}
+						
+					}while (verificaOtraMovida);
 
 					/*_tablero->agregar(FELIZ, fp, cp);
 					_tablero->quitar(fm, cm);
@@ -445,7 +562,7 @@ void control::options() {
 						bool co = true;
 						int cr;
 						do {
-							cr = 1 + rand() % 8;
+							cr = 3 + rand() % 7;
 							if ((cr % 2 != 0)) {
 								co = false;
 							}
@@ -453,7 +570,7 @@ void control::options() {
 						int r;
 						co = true;
 						do {
-							r = 1 + rand() % 8;
+							r = 1 + rand() % 6;
 							if ((r % 2 == 0) && (r - 1 == cr || r + 1 == cr)) {
 								co = false;
 							}
@@ -462,13 +579,57 @@ void control::options() {
 						for (int i = 0; i < 3; i++) {
 							Sleep(300);
 						}
-						_tablero->agregar(TRISTE, 4, r);
+						_tablero->agregar(PIEZA_O, 4, r);
 						_tablero->quitar(3, cr);
 						cls();
 						_tablero->printTablero();
 						pauseCorner();
 					}
 					else {
+						bool co = true;
+						int cr;
+						int fr;
+						bool defensa1 = false;
+						bool ataque1 = false;
+						int xf = 3, xc = 0;
+						
+						for (int i = 0; i <= 6; i += 2) {
+							if (_tablero->getFicha(3,i) == ' ') {
+								if (_tablero->getFicha(3, i + 2) == PIEZA_X || _tablero->getFicha(3, i - 2) == PIEZA_X) {
+									defensa1 = true;
+									xc = i;
+								}
+							}
+						}
+							
+						int r;
+						co = true;
+						r = 1 + rand() % 2;
+						if (r == 1) {
+							cr = xc - 1;
+						}
+						else {
+							cr = xc + 1;
+						}
+						color(10); gotoxy(1, 20); cout << "\nAnalizando jugada ...\n";
+						for (int i = 0; i < 3; i++) {
+							Sleep(300);
+						}
+						if (defensa1) {
+							_tablero->agregar(PIEZA_O, xf, xc);
+							_tablero->quitar(2, cr);
+							cls();
+							_tablero->printTablero();
+							pauseCorner();
+						}
+						if (ataque1) {
+							_tablero->agregar(PIEZA_O, 4, r);
+							_tablero->quitar(3, cr);
+							cls();
+							_tablero->printTablero();
+							pauseCorner();
+						}
+
 
 					}
 				}
