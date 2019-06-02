@@ -63,7 +63,19 @@ void tablero::printTablero(){
 	color(15);
 }
 bool tablero::existe(int f, int c) { return ((f - 1 < 8 && f - 1 >= 0) && (c-1 < 8 && c-1 >= 0)); }
-bool tablero::movidaLegal(int f, int c) { return (0); }
+bool tablero::existeDerecha(int f, int c){
+	return (getFicha(f - 1, c + 1) == ' ');
+}
+bool tablero::existeIzquierda(int f, int c){
+	return (getFicha(f - 1, c - 1) == ' ');
+}
+bool tablero::existeComerDerecha(char ficha, int f, int c){
+	return (getFicha(f - 1, c + 1) == ficha && getFicha(f - 2, c + 2) == ' ');
+}
+bool tablero::existeComerIzquierda(char ficha, int f, int c){
+	return (getFicha(f - 1, c - 1) == ficha && getFicha(f - 2, c - 2) == ' ');
+}
+
 char tablero::getFicha(int f, int c){
 	return fichas[f-1][c-1];
 }

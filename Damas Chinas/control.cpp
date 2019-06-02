@@ -95,19 +95,19 @@ void control::options() {
 	
 	jugador* p1;
 
-	
 	string nombre;
 
 
 	while (menu) {
 		printMenu();
-		opc = checkInt(0,4);
+
+		gotoxy(28, 20); color(10); cout << "> "; color(15); opc = checkInt(0, 4);
 		switch (opc){
 		case 1:
 			cls();
 
-			cout << "Digite el nombre del Jugador 1 \n> ";
-			getline(cin, nombre, END);
+			cout << "\n\n\n\n\n\n\t\t\tDigite el nombre del Jugador 1 ";
+			gotoxy(24, 9); color(15); cout << "> "; color(15); getline(cin, nombre, END);
 			p1 = new jugador(nombre);
 			
 			pauseCorner();
@@ -132,23 +132,23 @@ void control::options() {
 							fm = checkInt(1, 8);
 							cout << "Digite la columna de la ficha a mover > ";
 							cm = checkInt(1, 8);
-							if (_tablero->getFicha(fm - 1, cm - 1) == ' ') {
+							if (_tablero->existeIzquierda(fm, cm)) {
 								verif = 1; //hay campo arriba izquierda
 								tu = false;
 							}
-							if (_tablero->getFicha(fm - 1, cm + 1) == ' ') {
+							if (_tablero->existeDerecha(fm, cm)) {
 								verif = 2; //hay campo arriba derecha
 								tu = false;
 							}
-							if(_tablero->getFicha(fm - 1, cm - 1) == ' ' && _tablero->getFicha(fm - 1, cm + 1) == ' '){
+							if (_tablero->existeDerecha(fm, cm) && _tablero->existeIzquierda(fm, cm)) {
 								verif = 3; //hay campo arriba en los 2 lados
 								tu = false;
 							}
-							if (_tablero->getFicha(fm - 2, cm - 2) == ' ' && _tablero->getFicha(fm - 1, cm - 1) == COMPU) {
+							if (_tablero->existeComerDerecha(COMPU,fm,cm)) {
 								verif = 4; //hay campo para comer y seguir
 								tu = false;
 							}
-							if (_tablero->getFicha(fm - 2, cm + 2) == ' ' && _tablero->getFicha(fm - 1, cm + 1) == COMPU) {
+							if (_tablero->existeComerIzquierda(COMPU,fm,cm)) {
 								verif = 5; //hay campo para comer y seguir
 								tu = false;
 							}
@@ -262,36 +262,34 @@ void control::options() {
 						case 1:
 							fp = fm - 1;
 							cp = cm - 1;
+							_tablero->agregar(PLAYER_1, fp, cp);
+							_tablero->quitar(fm, cm);
 							break;
 						case 2:
 							fp = fm - 1;
 							cp = cm + 1;
+							_tablero->agregar(PLAYER_1, fp, cp);
+							_tablero->quitar(fm, cm);
 							break;
 						case 3:
 							fp = fm - 2;
 							cp = cm - 2;
+							_tablero->agregar(PLAYER_1, fp, cp);
+							_tablero->quitar(fm, cm);
+							_tablero->quitar(fm - 1, cm - 1);
 							break;
 						case 4:
 							fp = fm - 2;
 							cp = cm + 2;
+							_tablero->agregar(PLAYER_1, fp, cp);
+							_tablero->quitar(fm, cm);
+							_tablero->quitar(fm - 1, cm + 1);
 							break;
 						default:
 							break;
 						}
 					}
 					else {
-					}
-					_tablero->agregar(PLAYER_1, fp, cp);
-					if (a == 3) {
-						_tablero->quitar(fm, cm);
-						_tablero->quitar(fm - 1, cm - 1);
-					}
-					if (a == 4) {
-						_tablero->quitar(fm, cm);
-						_tablero->quitar(fm - 1, cm + 1);
-					}
-					else {
-						_tablero->quitar(fm, cm);
 					}
 					cls();
 					_tablero->printTablero();
@@ -311,7 +309,7 @@ void control::options() {
 						int r;
 						co = true;
 						do {
-							r = 1 + rand() % 8;
+							r = 3 + rand() % 7;
 							if ((r % 2 == 0) && (r - 1 == cr || r + 1 == cr)) {
 								co = false;
 							}
@@ -321,7 +319,7 @@ void control::options() {
 							Sleep(1000);
 						}
 						_tablero->agregar(COMPU, 4, r);
-						_tablero->quitar(3,cr);
+						_tablero->quitar(3, cr);
 						cls();
 						_tablero->printTablero();
 						pauseCorner();
