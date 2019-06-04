@@ -101,7 +101,7 @@ void control::options() {
 
 	while (menu) {
 		printMenu();
-		opc = checkInt(0, 4);
+		gotoxy(28, 20); color(13); cout << "> "; color(15); opc = checkInt(0, 4);
 		switch (opc) {
 		case 1:
 			cls();
@@ -120,128 +120,130 @@ void control::options() {
 					int fm, cm;
 					bool tu = true;
 					int verif = 0;
-					while (tu) {
-						if (contador_turnos == 0) {
-							fm = 6;
-							cout << "Digite la columna de la ficha a mover > ";
-							cm = checkInt(1, 8);
-							tu = false;
-						}
-						else {
-							cout << "Digite la fila de la ficha a mover > ";
-							fm = checkInt(1, 8);//filas 
-							cout << "Digite la columna de la ficha a mover > ";
-							cm = checkInt(1, 8);//columnas
-							if (_tablero->getFicha(fm - 1, cm - 1) == ' ' && cm == 8) {// que la de la izquierda este vacia
-								verif = 1;									// para columnas 1 y 8
-								tu = false;
-							}
-							if (_tablero->getFicha(fm - 1, cm + 1) == ' ' && cm == 1) {// que la de la derecha este vacia
-								verif = 2;									// para columnas 1 y 8
-								tu = false;
-							}
-							if (_tablero->getFicha(fm - 1, cm - 1) == ' ' && _tablero->getFicha(fm - 1, cm + 1) == ' ' && cm >= 2 && cm <= 7) {
-								verif = 3;									// que a los 2 laterales esten vacios
-								tu = false;
-							}
-							if ((_tablero->getFicha(fm - 1, cm - 1) == ' ') && (_tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 2, cm + 2) == ' ') && cm >= 2 && cm <= 6) {
-								verif = 4;									// que la de la izquierda este vacia y se pueda comer a la de la derecha
-								tu = false;
-							}
-							if ((_tablero->getFicha(fm - 1, cm + 1) == ' ') && (_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 2, cm - 2) == ' ') && cm >= 3 && cm <= 7) {
-								verif = 5;									// que la de la derecha este vacia y se pueda comer a la de la izquierda
-								tu = false;
-							}
-							if (_tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 2, cm + 2) == ' ' && cm == 1) {
-								verif = 6;									// que la de la derecha esté llena y se la pueda comer
-								tu = false;									// para columnas 1 y 8
-							}
-							if (_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 2, cm - 2) == ' ' && cm == 8) {
-								verif = 7;									// que la de la izquierda esté llena y se la pueda comer
-								tu = false;										// para columnas 1 y 8
-							}
-							if (_tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 2, cm + 2) == 'O' && cm == 1) {
-								verif = 8;									//cuando la de la derecha esté llena y  NO se la pueda comer
-								tu = false;									// para columnas 1 y 8
-							}
-							if (_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 2, cm - 2) == 'O' && cm == 8) {
-								verif = 9;									//cuando la de la ziqeuierda esté llena y  NO se la pueda comer
-								tu = false;									// para columnas 1 y 8
-							}
-							if ((_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 2, cm - 2) == 'O') && (_tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 2, cm + 2) == 'O') && cm >= 3 && cm <= 6) {
-								verif = 10;//que tenga un bloqueo doble a ambos lados
-								tu = false;
-							}
-							if ((_tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 2, cm + 2) == 'O') && (_tablero->getFicha(fm - 1, cm - 1) == 'O') && cm == 2) {
-								verif = 11;// si esta atrapada entre una negra y el borde izquierdo del tablero y un bloqueo doble a la derecha
-								tu = false;// usar solo cuando i-1==1
-							}
-							if ((_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 2, cm - 2) == 'O') && (_tablero->getFicha(fm - 1, cm + 1) == 'O') && cm == 7) {
-								verif = 12;// si esta atrapada entre una negra y el borde derecho del tablero y un bloqueo doble a la izquierda
-								tu = false;// usar solo cuando i+1==8
-							}
-
-							if (_tablero->getFicha(fm - 1, cm - 1) == ' ' && (_tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 2, cm + 2) == 'O') && cm >= 2 && cm <= 6) {
-								verif = 13;// que la de la izquierda este vacia  y tenga un bloqueo doble a la derecha
-								tu = false;
-							}
-							if (_tablero->getFicha(fm - 1, cm + 1) == ' ' && (_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 2, cm - 2) == 'O') && cm <= 7 && cm >= 3) {
-								verif = 14;// que la de la derecha este vacia  y tenga un bloqueo doble a la izquierda
-								tu = false;
-
-							}
-							if ((_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 2, cm - 2) == 'O') && (_tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 2, cm + 2) == ' ') && cm >= 3 && cm <= 6) {
-								verif = 15; //que a la izquierda tenga un bloqueo doble y que a la derecha  tenga una ficha y se la pueda comer
-								tu = false;
-							}
-							if ((_tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 2, cm + 2) == 'O') && (_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 2, cm - 2) == ' ') && cm >= 3 && cm <= 6) {
-								verif = 16; //que a la derecha tenga un bloqueo doble y que a la izquierda  tenga una ficha y se la pueda comer
-								tu = false;
-							}
-							if (_tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 2, cm - 2) == ' ' && cm == 7) {
-								verif = 17;
-								tu = false;
-							}
-							if (_tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 1, cm - 1) == ' ' && cm == 7) {
-								verif = 18;
-								tu = false;
-							}
-							if (_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 1, cm + 1) == ' ' && cm == 2) {
-								verif = 19;
-								tu = false;
-							}
-							if (_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 2, cm - 2) == ' ' && _tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 2, cm + 2) == ' ' && cm >= 3 && cm <= 6) {
-								verif = 20;
-								tu = false;
-							}
-							if (_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 2, cm + 2) == ' ' && cm == 2) {
-								verif = 21;
-								tu = false;
-							}
-							if (_tablero->getFicha(fm - 1, cm - 1) == 'X' && _tablero->getFicha(fm - 1, cm + 1) == 'X' && cm >= 2 && cm <= 7) {
-								verif = 22; /// nuevos sabado 1 de junio
-								tu = false;
-							}
-							if ((_tablero->getFicha(fm - 1, cm - 1) == ' ') && (_tablero->getFicha(fm - 1, cm + 1) == 'X') && cm >= 2 && cm <= 7) {
-								verif = 23; /// nuevos sabado 1 de junio
-								tu = false;
-							}
-							if ((_tablero->getFicha(fm - 1, cm - 1) == 'X') && (_tablero->getFicha(fm - 1, cm + 1) == ' ') && cm >= 2 && cm <= 7) {
-								verif = 24; /// nuevos sabado 1 de junio
-								tu = false;
-							}
-							if (_tablero->getFicha(fm - 1, cm + 1) == 'X' && cm == 1) {
-								verif = 25; /// nuevos sabado 1 de junio
-								tu = false;
-							}
-							if (_tablero->getFicha(fm - 1, cm - 1) == 'X' && cm == 8) {
-								verif = 26; /// nuevos sabado 1 de junio
-								tu = false;
-							}
-						}
-					}
 					int verificaOtraMovida = false;
 					do {
+						while (tu) {
+
+							if (contador_turnos == 0) {
+								fm = 6;
+								cout << "Digite la columna de la ficha a mover > ";
+								cm = checkInt(1, 8);
+								tu = false;
+							}
+							else {
+								cout << "Digite la fila de la ficha a mover > ";
+								fm = checkInt(1, 8);//filas 
+								cout << "Digite la columna de la ficha a mover > ";
+								cm = checkInt(1, 8);//columnas
+								if (_tablero->getFicha(fm - 1, cm - 1) == ' ' && cm == 8) {// que la de la izquierda este vacia
+									verif = 1;									// para columnas 1 y 8
+									tu = false;
+								}
+								if (_tablero->getFicha(fm - 1, cm + 1) == ' ' && cm == 1) {// que la de la derecha este vacia
+									verif = 2;									// para columnas 1 y 8
+									tu = false;
+								}
+								if (_tablero->getFicha(fm - 1, cm - 1) == ' ' && _tablero->getFicha(fm - 1, cm + 1) == ' ' && cm >= 2 && cm <= 7) {
+									verif = 3;									// que a los 2 laterales esten vacios
+									tu = false;
+								}
+								if ((_tablero->getFicha(fm - 1, cm - 1) == ' ') && (_tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 2, cm + 2) == ' ') && cm >= 2 && cm <= 6) {
+									verif = 4;									// que la de la izquierda este vacia y se pueda comer a la de la derecha
+									tu = false;
+								}
+								if ((_tablero->getFicha(fm - 1, cm + 1) == ' ') && (_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 2, cm - 2) == ' ') && cm >= 3 && cm <= 7) {
+									verif = 5;									// que la de la derecha este vacia y se pueda comer a la de la izquierda
+									tu = false;
+								}
+								if (_tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 2, cm + 2) == ' ' && cm == 1) {
+									verif = 6;									// que la de la derecha esté llena y se la pueda comer
+									tu = false;									// para columnas 1 y 8
+								}
+								if (_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 2, cm - 2) == ' ' && cm == 8) {
+									verif = 7;									// que la de la izquierda esté llena y se la pueda comer
+									tu = false;										// para columnas 1 y 8
+								}
+								if (_tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 2, cm + 2) == 'O' && cm == 1) {
+									verif = 8;									//cuando la de la derecha esté llena y  NO se la pueda comer
+									tu = false;									// para columnas 1 y 8
+								}
+								if (_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 2, cm - 2) == 'O' && cm == 8) {
+									verif = 9;									//cuando la de la ziqeuierda esté llena y  NO se la pueda comer
+									tu = false;									// para columnas 1 y 8
+								}
+								if ((_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 2, cm - 2) == 'O') && (_tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 2, cm + 2) == 'O') && cm >= 3 && cm <= 6) {
+									verif = 10;//que tenga un bloqueo doble a ambos lados
+									tu = false;
+								}
+								if ((_tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 2, cm + 2) == 'O') && (_tablero->getFicha(fm - 1, cm - 1) == 'O') && cm == 2) {
+									verif = 11;// si esta atrapada entre una negra y el borde izquierdo del tablero y un bloqueo doble a la derecha
+									tu = false;// usar solo cuando i-1==1
+								}
+								if ((_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 2, cm - 2) == 'O') && (_tablero->getFicha(fm - 1, cm + 1) == 'O') && cm == 7) {
+									verif = 12;// si esta atrapada entre una negra y el borde derecho del tablero y un bloqueo doble a la izquierda
+									tu = false;// usar solo cuando i+1==8
+								}
+
+								if (_tablero->getFicha(fm - 1, cm - 1) == ' ' && (_tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 2, cm + 2) == 'O') && cm >= 2 && cm <= 6) {
+									verif = 13;// que la de la izquierda este vacia  y tenga un bloqueo doble a la derecha
+									tu = false;
+								}
+								if (_tablero->getFicha(fm - 1, cm + 1) == ' ' && (_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 2, cm - 2) == 'O') && cm <= 7 && cm >= 3) {
+									verif = 14;// que la de la derecha este vacia  y tenga un bloqueo doble a la izquierda
+									tu = false;
+
+								}
+								if ((_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 2, cm - 2) == 'O') && (_tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 2, cm + 2) == ' ') && cm >= 3 && cm <= 6) {
+									verif = 15; //que a la izquierda tenga un bloqueo doble y que a la derecha  tenga una ficha y se la pueda comer
+									tu = false;
+								}
+								if ((_tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 2, cm + 2) == 'O') && (_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 2, cm - 2) == ' ') && cm >= 3 && cm <= 6) {
+									verif = 16; //que a la derecha tenga un bloqueo doble y que a la izquierda  tenga una ficha y se la pueda comer
+									tu = false;
+								}
+								if (_tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 2, cm - 2) == ' ' && cm == 7) {
+									verif = 17;
+									tu = false;
+								}
+								if (_tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 1, cm - 1) == ' ' && cm == 7) {
+									verif = 18;
+									tu = false;
+								}
+								if (_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 1, cm + 1) == ' ' && cm == 2) {
+									verif = 19;
+									tu = false;
+								}
+								if (_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 2, cm - 2) == ' ' && _tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 2, cm + 2) == ' ' && cm >= 3 && cm <= 6) {
+									verif = 20;
+									tu = false;
+								}
+								if (_tablero->getFicha(fm - 1, cm - 1) == 'O' && _tablero->getFicha(fm - 1, cm + 1) == 'O' && _tablero->getFicha(fm - 2, cm + 2) == ' ' && cm == 2) {
+									verif = 21;
+									tu = false;
+								}
+								if (_tablero->getFicha(fm - 1, cm - 1) == 'X' && _tablero->getFicha(fm - 1, cm + 1) == 'X' && cm >= 2 && cm <= 7) {
+									verif = 22; /// nuevos sabado 1 de junio
+									tu = false;
+								}
+								if ((_tablero->getFicha(fm - 1, cm - 1) == ' ') && (_tablero->getFicha(fm - 1, cm + 1) == 'X') && cm >= 2 && cm <= 7) {
+									verif = 23; /// nuevos sabado 1 de junio
+									tu = false;
+								}
+								if ((_tablero->getFicha(fm - 1, cm - 1) == 'X') && (_tablero->getFicha(fm - 1, cm + 1) == ' ') && cm >= 2 && cm <= 7) {
+									verif = 24; /// nuevos sabado 1 de junio
+									tu = false;
+								}
+								if (_tablero->getFicha(fm - 1, cm + 1) == 'X' && cm == 1) {
+									verif = 25; /// nuevos sabado 1 de junio
+									tu = false;
+								}
+								if (_tablero->getFicha(fm - 1, cm - 1) == 'X' && cm == 8) {
+									verif = 26; /// nuevos sabado 1 de junio
+									tu = false;
+								}
+							}
+						}
+						bool inserto = false;
 						if (_tablero->getFicha(fm, cm) == PIEZA_X) {
 							int a = NULL;
 							if ((cm != 1 && cm != 8) && _tablero->getFicha(fm - 1, cm - 1) == ' ' && _tablero->getFicha(fm - 1, cm + 1) == ' ' && contador_turnos == 0) {
@@ -386,6 +388,7 @@ void control::options() {
 								cls();
 								_tablero->printTablero();
 								pauseCorner();
+								inserto = true;
 								break;
 							case 2:
 								fp = fm - 1;
@@ -396,6 +399,7 @@ void control::options() {
 								cls();
 								_tablero->printTablero();
 								pauseCorner();
+								inserto = true;
 								break;
 							case 3:
 								fp = fm - 2;
@@ -407,6 +411,7 @@ void control::options() {
 								cls();
 								_tablero->printTablero();
 								pauseCorner();
+								inserto = true;
 								break;
 							case 4:
 								fp = fm - 2;
@@ -418,17 +423,19 @@ void control::options() {
 								cls();
 								_tablero->printTablero();
 								pauseCorner();
+								inserto = true;
 								break;
 							default: {}
-								fp = fm;
-								cp = cm;
+									 fp = fm;
+									 cp = cm;
 
-								_tablero->agregar(PIEZA_X, fp, cp);
-								//_tablero->quitar(fm, cm);
-								cls();
-								_tablero->printTablero();
-								pauseCorner();
-								break;
+									 _tablero->agregar(PIEZA_X, fp, cp);
+									 //_tablero->quitar(fm, cm);
+									 cls();
+									 _tablero->printTablero();
+									 pauseCorner();
+									 inserto = true;
+									 break;
 							}
 						}
 						else {
@@ -437,118 +444,80 @@ void control::options() {
 						}
 						int verificar2 = 0;
 						{ //bloque de codigo que vuelve a verificar si puede mover otra vez
-							if (_tablero->getFicha(fp - 1, cp - 1) == ' ' && cp == 8) {// que la de la izquierda este vacia
-								verificar2 = 1;									// para columnas 1 y 8
-								tu = false;
-							}
-							if (_tablero->getFicha(fp - 1, cp + 1) == ' ' && cp == 1) {// que la de la derecha este vacia
-								verificar2 = 2;									// para columnas 1 y 8
-								tu = false;
-							}
-							if (_tablero->getFicha(fp - 1, cp - 1) == ' ' && _tablero->getFicha(fp - 1, cp + 1) == ' ' && cp >= 2 && cp <= 7) {
-								verificar2 = 3;									// que a los 2 laterales esten vacios
-								tu = false;
-							}
+
 							if ((_tablero->getFicha(fp - 1, cp - 1) == ' ') && (_tablero->getFicha(fp - 1, cp + 1) == 'O' && _tablero->getFicha(fp - 2, cp + 2) == ' ') && cp >= 2 && cp <= 6) {
-								verificar2 = 4;									// que la de la izquierda este vacia y se pueda comer a la de la derecha
-								tu = false;
+								verificar2 = 1;									// que la de la izquierda este vacia y se pueda comer a la de la derecha
+
 							}
 							if ((_tablero->getFicha(fp - 1, cp + 1) == ' ') && (_tablero->getFicha(fp - 1, cp - 1) == 'O' && _tablero->getFicha(fp - 2, cp - 2) == ' ') && cp >= 3 && cp <= 7) {
-								verificar2 = 5;									// que la de la derecha este vacia y se pueda comer a la de la izquierda
-								tu = false;
+								verificar2 = 1;									// que la de la derecha este vacia y se pueda comer a la de la izquierda
+
 							}
 							if (_tablero->getFicha(fp - 1, cp + 1) == 'O' && _tablero->getFicha(fp - 2, cp + 2) == ' ' && cp == 1) {
-								verificar2 = 6;									// que la de la derecha esté llena y se la pueda comer
-								tu = false;									// para columnas 1 y 8
+								verificar2 = 1;									// que la de la derecha esté llena y se la pueda comer
+																	// para columnas 1 y 8
 							}
 							if (_tablero->getFicha(fp - 1, cp - 1) == 'O' && _tablero->getFicha(fp - 2, cp - 2) == ' ' && cp == 8) {
-								verificar2 = 7;									// que la de la izquierda esté llena y se la pueda comer
-								tu = false;										// para columnas 1 y 8
+								verificar2 = 1;									// que la de la izquierda esté llena y se la pueda comer
+																		// para columnas 1 y 8
 							}
 							if (_tablero->getFicha(fp - 1, cp + 1) == 'O' && _tablero->getFicha(fp - 2, cp + 2) == 'O' && cp == 1) {
-								verificar2 = 8;									//cuando la de la derecha esté llena y  NO se la pueda comer
-								tu = false;									// para columnas 1 y 8
+								verificar2 = 1;									//cuando la de la derecha esté llena y  NO se la pueda comer
+																// para columnas 1 y 8
 							}
 							if (_tablero->getFicha(fp - 1, cp - 1) == 'O' && _tablero->getFicha(fp - 2, cp - 2) == 'O' && cp == 8) {
-								verificar2 = 9;									//cuando la de la ziqeuierda esté llena y  NO se la pueda comer
-								tu = false;									// para columnas 1 y 8
+								verificar2 = 1;									//cuando la de la ziqeuierda esté llena y  NO se la pueda comer
+																// para columnas 1 y 8
 							}
 							if ((_tablero->getFicha(fp - 1, cp - 1) == 'O' && _tablero->getFicha(fp - 2, cp - 2) == 'O') && (_tablero->getFicha(fp - 1, cp + 1) == 'O' && _tablero->getFicha(fp - 2, cp + 2) == 'O') && cp >= 3 && cp <= 6) {
-								verificar2 = 10;//que tenga un bloqueo doble a ambos lados
-								tu = false;
+								verificar2 = 1;//que tenga un bloqueo doble a ambos lados
+
 							}
 							if ((_tablero->getFicha(fp - 1, cp + 1) == 'O' && _tablero->getFicha(fp - 2, cp + 2) == 'O') && (_tablero->getFicha(fp - 1, cp - 1) == 'O') && cp == 2) {
-								verificar2 = 11;// si esta atrapada entre una negra y el borde izquierdo del tablero y un bloqueo doble a la derecha
-								tu = false;// usar solo cuando i-1==1
+								verificar2 = 1;// si esta atrapada entre una negra y el borde izquierdo del tablero y un bloqueo doble a la derecha
+											// usar solo cuando i-1==1
 							}
 							if ((_tablero->getFicha(fp - 1, cp - 1) == 'O' && _tablero->getFicha(fp - 2, cp - 2) == 'O') && (_tablero->getFicha(fp - 1, cp + 1) == 'O') && cp == 7) {
-								verificar2 = 12;// si esta atrapada entre una negra y el borde derecho del tablero y un bloqueo doble a la izquierda
-								tu = false;// usar solo cuando i+1==8
+								verificar2 = 1;// si esta atrapada entre una negra y el borde derecho del tablero y un bloqueo doble a la izquierda
+									// usar solo cuando i+1==8
 							}
 
 							if (_tablero->getFicha(fp - 1, cp - 1) == ' ' && (_tablero->getFicha(fp - 1, cp + 1) == 'O' && _tablero->getFicha(fp - 2, cp + 2) == 'O') && cp >= 2 && cp <= 6) {
-								verificar2 = 13;// que la de la izquierda este vacia  y tenga un bloqueo doble a la derecha
-								tu = false;
+								verificar2 = 1;// que la de la izquierda este vacia  y tenga un bloqueo doble a la derecha
+
 							}
 							if (_tablero->getFicha(fp - 1, cp + 1) == ' ' && (_tablero->getFicha(fp - 1, cp - 1) == 'O' && _tablero->getFicha(fp - 2, cp - 2) == 'O') && cp <= 7 && cp >= 3) {
-								verificar2 = 14;// que la de la derecha este vacia  y tenga un bloqueo doble a la izquierda
-								tu = false;
+								verificar2 = 1;// que la de la derecha este vacia  y tenga un bloqueo doble a la izquierda
+
 
 							}
 							if ((_tablero->getFicha(fp - 1, cp - 1) == 'O' && _tablero->getFicha(fp - 2, cp - 2) == 'O') && (_tablero->getFicha(fp - 1, cp + 1) == 'O' && _tablero->getFicha(fp - 2, cp + 2) == ' ') && cp >= 3 && cp <= 6) {
-								verificar2 = 15; //que a la izquierda tenga un bloqueo doble y que a la derecha  tenga una ficha y se la pueda comer
-								tu = false;
+								verificar2 = 1; //que a la izquierda tenga un bloqueo doble y que a la derecha  tenga una ficha y se la pueda comer
+
 							}
 							if ((_tablero->getFicha(fp - 1, cp + 1) == 'O' && _tablero->getFicha(fp - 2, cp + 2) == 'O') && (_tablero->getFicha(fp - 1, cp - 1) == 'O' && _tablero->getFicha(fp - 2, cp - 2) == ' ') && cp >= 3 && cp <= 6) {
-								verificar2 = 16; //que a la derecha tenga un bloqueo doble y que a la izquierda  tenga una ficha y se la pueda comer
-								tu = false;
+								verificar2 = 1; //que a la derecha tenga un bloqueo doble y que a la izquierda  tenga una ficha y se la pueda comer
+
 							}
 							if (_tablero->getFicha(fp - 1, cp + 1) == 'O' && _tablero->getFicha(fp - 1, cp - 1) == 'O' && _tablero->getFicha(fp - 2, cp - 2) == ' ' && cp == 7) {
-								verificar2 = 17;
-								tu = false;
+								verificar2 = 1;
+
 							}
-							if (_tablero->getFicha(fp - 1, cp + 1) == 'O' && _tablero->getFicha(fp - 1, cp - 1) == ' ' && cp == 7) {
-								verificar2 = 18;
-								tu = false;
-							}
-							if (_tablero->getFicha(fp - 1, cp - 1) == 'O' && _tablero->getFicha(fp - 1, cp + 1) == ' ' && cp == 2) {
-								verificar2 = 19;
-								tu = false;
-							}
+
 							if (_tablero->getFicha(fp - 1, cp - 1) == 'O' && _tablero->getFicha(fp - 2, cp - 2) == ' ' && _tablero->getFicha(fp - 1, cp + 1) == 'O' && _tablero->getFicha(fm - 2, cp + 2) == ' ' && cp >= 3 && cp <= 6) {
-								verificar2 = 20;
-								tu = false;
+								verificar2 = 1;
+
 							}
 							if (_tablero->getFicha(fp - 1, cp - 1) == 'O' && _tablero->getFicha(fp - 1, cp + 1) == 'O' && _tablero->getFicha(fp - 2, cp + 2) == ' ' && cp == 2) {
-								verificar2 = 21;
-								tu = false;
-							}
-							if (_tablero->getFicha(fp - 1, cp - 1) == 'X' && _tablero->getFicha(fp - 1, cp + 1) == 'X' && cp >= 2 && cp <= 7) {
-								verificar2 = 22; /// nuevos sabado 1 de junio
-								tu = false;
-							}
-							if ((_tablero->getFicha(fp - 1, cp - 1) == ' ') && (_tablero->getFicha(fp - 1, cp + 1) == 'X') && cp >= 2 && cp <= 7) {
-								verificar2 = 23; /// nuevos sabado 1 de junio
-								tu = false;
-							}
-							if ((_tablero->getFicha(fp - 1, cp - 1) == 'X') && (_tablero->getFicha(fp - 1, cp + 1) == ' ') && cp >= 2 && cp <= 7) {
-								verificar2 = 24; /// nuevos sabado 1 de junio
-								tu = false;
-							}
-							if (_tablero->getFicha(fp - 1, cp + 1) == 'X' && cp == 1) {
-								verificar2 = 25; /// nuevos sabado 1 de junio
-								tu = false;
-							}
-							if (_tablero->getFicha(fm - 1, cp - 1) == 'X' && cp == 8) {
-								verificar2 = 26; /// nuevos sabado 1 de junio
-								tu = false;
+								verificar2 = 1;
+
 							}
 						}
-						if (verificar2 != 0) {
+						if (verificar2 == 1 && inserto) {
 							verificaOtraMovida = true;
 						}
-						
-					}while (verificaOtraMovida);
+
+					} while (verificaOtraMovida);
 
 					/*_tablero->agregar(FELIZ, fp, cp);
 					_tablero->quitar(fm, cm);
@@ -592,16 +561,16 @@ void control::options() {
 						bool defensa1 = false;
 						bool ataque1 = false;
 						int xf = 3, xc = 0;
-						
+
 						for (int i = 0; i <= 6; i += 2) {
-							if (_tablero->getFicha(3,i) == ' ') {
+							if (_tablero->getFicha(3, i) == ' ') {
 								if (_tablero->getFicha(3, i + 2) == PIEZA_X || _tablero->getFicha(3, i - 2) == PIEZA_X) {
 									defensa1 = true;
 									xc = i;
 								}
 							}
 						}
-							
+
 						int r;
 						co = true;
 						r = 1 + rand() % 2;
