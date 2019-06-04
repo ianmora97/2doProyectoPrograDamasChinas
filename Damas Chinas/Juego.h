@@ -16,5 +16,5 @@ public:
 	virtual int verificaJugada(int fm,int cm);
 	virtual bool verificaDobleJugada(int fm, int cm);
 	virtual void guardaPartida(ofstream& archivo);
-
+	virtual void imprimeOpcionJuego();
 };

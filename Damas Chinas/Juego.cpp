@@ -6,15 +6,26 @@ Juego::Juego(){
 }
 
 Juego::~Juego(){}
-
+void Juego::imprimeOpcionJuego() {
+	dibujaRectangulo(50,75,5,18,15);
+	gotoxy(55, 6); cout << "MENU DE JUEGO";
+	gotoxy(52, 8);  cout << "[1] Jugar";
+	gotoxy(52, 10);  cout << "[2] Terminar y salir";
+	gotoxy(52, 12); cout << "[3] Terminar y guardar";
+	int opc;
+	gotoxy(54, 16); opc = checkInt(1, 3);
+}
 void Juego::jugar(){
 	int contador_turnos = 0;
 	bool juego = true;
 	while (juego) {
 		if (contador_turnos % 2 == 0) {
 			cls();
+			
 			gotoxy(50, 3); color(15); cout << "Turno de " << p1->getNombre();
 			_tablero->printTablero();
+			imprimeOpcionJuego();
+			gotoxy(1,20);
 			cout << endl << endl;
 			int fp = 0, cp = 0;
 			int fm, cm;
@@ -167,6 +178,7 @@ void Juego::jugar(){
 						_tablero->agregar(PIEZA_X, fp, cp);
 						_tablero->quitar(fm, cm);
 						cls();
+						gotoxy(50, 3); color(15); cout << "Turno de " << p1->getNombre();
 						_tablero->printTablero();
 						pauseCorner();
 						inserto = true;
@@ -178,6 +190,7 @@ void Juego::jugar(){
 						_tablero->agregar(PIEZA_X, fp, cp);
 						_tablero->quitar(fm, cm);
 						cls();
+						gotoxy(50, 3); color(15); cout << "Turno de " << p1->getNombre();
 						_tablero->printTablero();
 						pauseCorner();
 						inserto = true;
@@ -190,6 +203,7 @@ void Juego::jugar(){
 						_tablero->quitar(fm, cm);
 						_tablero->quitar(fm - 1, cm - 1);
 						cls();
+						gotoxy(50, 3); color(15); cout << "Turno de " << p1->getNombre();
 						_tablero->printTablero();
 						pauseCorner();
 						inserto = true;
@@ -202,6 +216,7 @@ void Juego::jugar(){
 						_tablero->quitar(fm, cm);
 						_tablero->quitar(fm - 1, cm + 1);
 						cls();
+						gotoxy(50, 3); color(15); cout << "Turno de " << p1->getNombre();
 						_tablero->printTablero();
 						pauseCorner();
 						inserto = true;
@@ -213,6 +228,7 @@ void Juego::jugar(){
 						_tablero->agregar(PIEZA_X, fp, cp);
 						//_tablero->quitar(fm, cm);
 						cls();
+						gotoxy(50, 3); color(15); cout << "Turno de " << p1->getNombre();
 						_tablero->printTablero();
 						pauseCorner();
 						inserto = true;
@@ -237,7 +253,7 @@ void Juego::jugar(){
 		}
 		else {
 			//computadora
-			gotoxy(50, 3); color(15); cout << "Turno de " << p1->getNombre();
+			gotoxy(50, 3); color(15); cout << "Turno de La computadora";
 			if (contador_turnos == 1) {
 				bool co = true;
 				int cr;
@@ -262,6 +278,7 @@ void Juego::jugar(){
 				_tablero->agregar(PIEZA_O, 4, r);
 				_tablero->quitar(3, cr);
 				cls();
+				gotoxy(50, 3); color(15); cout << "Turno de La computadora";
 				_tablero->printTablero();
 				pauseCorner();
 			}
@@ -306,6 +323,7 @@ void Juego::jugar(){
 					_tablero->agregar(PIEZA_O, 4, r);
 					_tablero->quitar(3, cr);
 					cls();
+					gotoxy(50, 3); color(15); cout << "Turno de La computadora";
 					_tablero->printTablero();
 					pauseCorner();
 				}

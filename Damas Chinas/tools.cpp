@@ -156,3 +156,22 @@ int checkInt(int min, int max) {
 void pauseCorner() {
 	color(12); gotoxy(90, 38); cout << "Continuar..."; getchar();
 }
+void dibujaRectangulo(int x, int y, int l, int a, int c) { //x de donde comienza, y donde termina || l de donde comienza , a de donde termina / c = color
+	color(c);
+	for (int i = x; i < y; i++) { //el ancho
+		gotoxy(i, l); cout << char(205);
+		gotoxy(i, a); cout << char(205);
+	}
+	for (int i = l; i < a; i++) { //el alto
+		gotoxy(x, i); cout << char(186);
+		gotoxy(y, i); cout << char(186);
+	}
+	gotoxy(x, l); cout << char(201); //esquina superior izquierda
+
+	gotoxy(y, l); cout << char(187); //esquina superior derecha
+
+	gotoxy(x, a); cout << char(200); //esquina inferior izquierda
+
+	gotoxy(y, a); cout << char(188); //esquina inferior derecha
+	color(15);
+}

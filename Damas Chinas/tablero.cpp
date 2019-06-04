@@ -32,9 +32,9 @@ tablero::~tablero(){}
 
 void tablero::printTablero(){
 	cout << "\n";
-	cout << "    ";
+	cout << "     ";
 	for (int i = 1; i <= 8; i++) {
-		color(13); cout << "  " << i << " "; // 
+		color(13); cout << " " << i << "  "; // 
 	}
 	cout << "\n\n";
 	for (int i = 0; i < tam; i++) {
@@ -55,12 +55,12 @@ void tablero::printTablero(){
 			else{
 				color(1); cout << " " << fichas[i][j] << "  ";
 			}
-		}
-		cout << endl;
-		
-		cout << endl;
+		}		
+		cout << endl << endl;
 	}
 	color(15);
+	dibujaRectangulo(4,37,5,21,15);
+
 }
 bool tablero::existe(int f, int c) { return ((f - 1 < 8 && f - 1 >= 0) && (c-1 < 8 && c-1 >= 0)); }
 bool tablero::movidaLegal(int f, int c) { return (0); }
