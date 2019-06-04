@@ -1,6 +1,5 @@
 #pragma once
-#include "tablero.h"
-#include "jugador.h"
+#include "Juego.h"
 
 class control{
 public:
@@ -8,5 +7,7 @@ public:
 	~control();
 	virtual void options();
 	virtual void printMenu();
+private:
+	Juego* game;
 };
 
