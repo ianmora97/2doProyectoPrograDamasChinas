@@ -3,6 +3,7 @@
 Juego::Juego(){
 	_tablero = new tablero;
 	p1 = NULL;
+	_estrategia = NULL;
 }
 
 Juego::~Juego(){}

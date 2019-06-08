@@ -2,12 +2,14 @@
 #include "tools.h"
 #include "tablero.h"
 #include "jugador.h"
+#include "estrategia.h"
 
 using namespace std;
 class Juego{
 private:
 	tablero* _tablero;
 	jugador* p1;
+	respuesta* _estrategia;
 public:
 	Juego();
 	~Juego();
