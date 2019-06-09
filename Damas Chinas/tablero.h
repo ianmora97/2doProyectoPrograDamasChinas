@@ -13,6 +13,7 @@ public:
 	virtual bool movidaLegal(int,int);
 	virtual char getFicha(int,int);
 	virtual string toString(bool o = true);
+	virtual void reiniciar();
 private:
 	char fichas[8][8];
 	int tam, cant;

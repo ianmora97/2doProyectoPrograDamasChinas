@@ -154,7 +154,7 @@ int checkInt(int min, int max) {
 }
 
 void pauseCorner() {
-	color(12); gotoxy(90, 38); cout << "Continuar..."; getchar();
+	color(12); gotoxy(90, 38); cout << "Continuar..."; getchar(); color(15);
 }
 void dibujaRectangulo(int x, int y, int l, int a, int c) { //x de donde comienza, y donde termina || l de donde comienza , a de donde termina / c = color
 	color(c);

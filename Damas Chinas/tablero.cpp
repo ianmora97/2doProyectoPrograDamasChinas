@@ -100,3 +100,30 @@ void tablero::quitar(int f,int c) {
 		}
 	}
 }
+void tablero::reiniciar() {
+	tam = 8;
+	cant = 0;
+	for (int i = 0; i < tam; i++) {
+		for (int j = 0; j < tam; j++) {
+			if (i < 3) {
+				if ((i + j) % 2 == 0) {
+					fichas[i][j] = PIEZA_O;
+				}
+				else {
+					fichas[i][j] = ' ';
+				}
+			}
+			else if (i > 4) {
+				if ((i + j) % 2 == 0) {
+					fichas[i][j] = PIEZA_X;
+				}
+				else {
+					fichas[i][j] = ' ';
+				}
+			}
+			else {
+				fichas[i][j] = ' ';
+			}
+		}
+	}
+}

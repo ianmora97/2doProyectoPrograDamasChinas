@@ -7,6 +7,7 @@ Juego::Juego() {
 	_defensa = new defensa;
 	_ataque = new ataque;
 	_aleatoria = new aleatoria;
+	_selectivo = new selectivo;
 	
 }
 Juego::~Juego(){}
@@ -16,9 +17,36 @@ int Juego::imprimeOpcionJuego() {
 	gotoxy(52, 8);  cout << "[1] Jugar";
 	gotoxy(52, 10); cout << "[2] Terminar y salir";
 	gotoxy(52, 12); cout << "[3] Terminar y guardar";
+	gotoxy(52, 14); cout << "[4] Reiniciar partida";
 	int opc;
-	gotoxy(54, 16); opc = checkInt(1, 3);
+	gotoxy(54, 16); opc = checkInt(1, 4);
 	return opc;
+}
+void Juego::seleccionarEstrategia() {
+	
+	gotoxy(25, 6); cout << "Seleccione la estrategia de la Computadora" << endl;
+	gotoxy(30, 8); cout << "[1] Aleatoria";
+	gotoxy(30, 9); cout << "[2] Defensivo";
+	gotoxy(30, 10);cout << "[3] Ataque";
+	gotoxy(30, 11); cout << "[4] Selectivo";
+	gotoxy(30, 13); int opc; cout << "> ";	opc = checkInt(1, 4);
+	switch (opc){
+	case 1:
+		_estrategia->setEstrategia(_aleatoria);
+		break;
+	case 2:
+		_estrategia->setEstrategia(_defensa);
+		break;
+	case 3:
+		_estrategia->setEstrategia(_ataque);
+		break;
+	case 4:
+		_estrategia->setEstrategia(_selectivo);
+		break;
+	default:
+		break;
+	}
+	
 }
 void Juego::jugar(){
 	string datoContador;
@@ -313,6 +341,14 @@ void Juego::jugar(){
 					}
 					archivo.close();
 					break;
+				case 4:
+					gotoxy(0, 22);
+					cout << "Reiniciando Partida...";
+					Sleep(800);
+					contador_turnos = -1;
+					_tablero->reiniciar();
+					break;
+				default: break;
 			}
 
 			/*_tablero->agregar(FELIZ, fp, cp);
@@ -322,25 +358,8 @@ void Juego::jugar(){
 			pauseCorner();*/
 		}
 		else {
-			
 			if (juego != false) {
-				//computadora
-				gotoxy(50, 3); color(15); cout << "Turno de La computadora";
-				if (contador_turnos == 1) {
-					_estrategia->setEstrategia(_aleatoria);
-					_estrategia->interfazRespuesta(_tablero);
-				}
-				else {
-					bool estrategia;
-					if (estrategia /*si la estrategia es defensa*/) {
-						_estrategia->setEstrategia(_defensa);
-						_estrategia->interfazRespuesta(_tablero);
-					}
-					else { /*Si la estrategia es ataque*/
-						_estrategia->setEstrategia(_ataque);
-						_estrategia->interfazRespuesta(_tablero);
-					}
-				}
+				_estrategia->interfazRespuesta(_tablero);
 			}
 		}
 		contador_turnos++;
@@ -525,6 +544,10 @@ void Juego::guardaPartida(){
 	archivo.open("nombreGuardado.txt", ios::out);
 	archivo << p1->getNombre();
 	archivo.close();
+
+	archivo.open("estrategiaSeleccionada.txt", ios::out);
+	archivo << _estrategia->toString();
+	archivo.close();
 }
 
 bool Juego::cargarPartida(){
@@ -577,7 +600,28 @@ bool Juego::cargarPartida(){
 			}
 		}
 		archivo.close();
-		remove("partidaGuardada.txt");
+		
 		return true;
 	}
+	string est;
+	archivo.open("estrategiaSeleccionada.txt", ios::in);
+	if (archivo.is_open()) {
+		while (!(archivo.eof())) {
+			getline(archivo, est);
+		}
+	}
+	if (est == "Aleatoria") {
+		_estrategia->setEstrategia(_aleatoria);
+	}
+	else if (est == "Ataque") {
+		_estrategia->setEstrategia(_ataque);
+	}
+	else if (est == "Defensa") {
+		_estrategia->setEstrategia(_defensa);
+	}
+	else if (est == "Selectivo") {
+		_estrategia->setEstrategia(_selectivo);
+	}
+	archivo.close();
+	remove("partidaGuardada.txt");
 }

@@ -13,6 +13,7 @@ private:
 	defensa* _defensa;
 	ataque* _ataque;
 	estrategia* _aleatoria;
+	selectivo* _selectivo;
 	
 public:
 	Juego();
@@ -24,4 +25,5 @@ public:
 	virtual void guardaPartida();
 	virtual bool cargarPartida();
 	virtual int imprimeOpcionJuego();
+	virtual void seleccionarEstrategia();
 };

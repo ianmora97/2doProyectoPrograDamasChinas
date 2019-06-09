@@ -4,16 +4,19 @@ defensa::defensa(){}
 defensa::~defensa(){}
 
 void defensa::algoritmo(tablero* _tablero){
-	cout << "Modo defensa" << endl;
+	gotoxy(50, 3); color(15); cout << "Turno de La computadora";
+	_tablero->printTablero();
 }
+string defensa::getEstrategia() const { return "Defensa"; }
 
 ataque::ataque(){}
 ataque::~ataque(){}
 
 void ataque::algoritmo(tablero* _tablero){
-	cout << "Modo ataque" << endl;
+	gotoxy(50, 3); color(15); cout << "Turno de La computadora";
+	_tablero->printTablero();
 }
-
+string ataque::getEstrategia() const { return "Ataque"; }
 
 aleatoria::aleatoria(){}
 aleatoria::~aleatoria(){}
@@ -42,6 +45,7 @@ void aleatoria::algoritmo(tablero* _tablero){
 	_tablero->printTablero();
 	pauseCorner();
 }
+string aleatoria::getEstrategia() const { return "Aleatoria"; }
 
 respuesta::respuesta(){}
 respuesta::respuesta(estrategia* e) : _estrategia(e){}
@@ -52,3 +56,15 @@ void respuesta::setEstrategia(estrategia* e) { _estrategia = e; }
 void respuesta::interfazRespuesta(tablero* _tablero){
 	_estrategia->algoritmo(_tablero);
 }
+string respuesta::toString() {
+	return _estrategia->getEstrategia();
+}
+
+selectivo::selectivo(){}\
+selectivo::~selectivo(){}
+
+void selectivo::algoritmo(tablero*){
+
+}
+
+string selectivo::getEstrategia() const { return "Selectivo"; }

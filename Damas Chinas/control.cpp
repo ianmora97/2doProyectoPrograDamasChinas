@@ -91,6 +91,10 @@ void control::options() {
 			archivo << "0";
 			archivo.close();
 			pauseCorner();
+			cls();
+			game->seleccionarEstrategia();
+			pauseCorner();
+			cls();
 			game->jugar();
 			cls();
 			break;
