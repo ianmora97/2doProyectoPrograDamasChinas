@@ -32,3 +32,5 @@ int mueveFlechas();
 int checkInt(int, int);
 void pauseCorner();
 void dibujaRectangulo(int x, int y, int l, int a, int c);
+char stringXchar(string);
+int stringXint(string);

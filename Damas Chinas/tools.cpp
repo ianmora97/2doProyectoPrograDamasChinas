@@ -175,3 +175,17 @@ void dibujaRectangulo(int x, int y, int l, int a, int c) { //x de donde comienza
 	gotoxy(y, a); cout << char(188); //esquina inferior derecha
 	color(15);
 }
+char stringXchar(string line) {
+	stringstream s;
+	char c;
+	s << line;
+	s >> c;
+	return c;
+}
+int stringXint(string line) {
+	stringstream s;
+	int c;
+	s << line;
+	s >> c;
+	return c;
+}

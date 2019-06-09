@@ -10,6 +10,10 @@ private:
 	tablero* _tablero;
 	jugador* p1;
 	respuesta* _estrategia;
+	defensa* _defensa;
+	ataque* _ataque;
+	estrategia* _aleatoria;
+	
 public:
 	Juego();
 	~Juego();
@@ -17,6 +21,7 @@ public:
 	virtual void pideNombre();
 	virtual int verificaJugada(int fm,int cm);
 	virtual bool verificaDobleJugada(int fm, int cm);
-	virtual void guardaPartida(ofstream& archivo);
-	virtual void imprimeOpcionJuego();
+	virtual void guardaPartida();
+	virtual bool cargarPartida();
+	virtual int imprimeOpcionJuego();
 };

@@ -12,6 +12,7 @@ public:
 	virtual bool existe(int,int);
 	virtual bool movidaLegal(int,int);
 	virtual char getFicha(int,int);
+	virtual string toString(bool o = true);
 private:
 	char fichas[8][8];
 	int tam, cant;

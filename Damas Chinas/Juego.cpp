@@ -1,23 +1,37 @@
 #include "Juego.h"
 
-Juego::Juego(){
+Juego::Juego() {
 	_tablero = new tablero;
 	p1 = NULL;
-	_estrategia = NULL;
+	_estrategia = new respuesta;
+	_defensa = new defensa;
+	_ataque = new ataque;
+	_aleatoria = new aleatoria;
+	
 }
-
 Juego::~Juego(){}
-void Juego::imprimeOpcionJuego() {
+int Juego::imprimeOpcionJuego() {
 	dibujaRectangulo(50,75,5,18,15);
 	gotoxy(55, 6); cout << "MENU DE JUEGO";
 	gotoxy(52, 8);  cout << "[1] Jugar";
-	gotoxy(52, 10);  cout << "[2] Terminar y salir";
+	gotoxy(52, 10); cout << "[2] Terminar y salir";
 	gotoxy(52, 12); cout << "[3] Terminar y guardar";
 	int opc;
 	gotoxy(54, 16); opc = checkInt(1, 3);
+	return opc;
 }
 void Juego::jugar(){
+	string datoContador;
 	int contador_turnos = 0;
+	ifstream archivo;
+	archivo.open("contadorTurnos.txt", ios::in);
+	if (archivo.is_open()) {
+		while (!(archivo.eof())) {
+			getline(archivo, datoContador);
+			contador_turnos = stringXint(datoContador);
+		}
+	}
+	archivo.close();
 	bool juego = true;
 	while (juego) {
 		if (contador_turnos % 2 == 0) {
@@ -25,226 +39,281 @@ void Juego::jugar(){
 			
 			gotoxy(50, 3); color(15); cout << "Turno de " << p1->getNombre();
 			_tablero->printTablero();
-			imprimeOpcionJuego();
-			gotoxy(1,20);
-			cout << endl << endl;
+			int opcJuego = imprimeOpcionJuego();
 			int fp = 0, cp = 0;
 			int fm, cm;
 			bool tu = true;
 			int verif = 0;
 			int verificaOtraMovida = false;
-			do {
-				while (tu) {
+			fstream archivo;
+			switch (opcJuego) {
+			case 1:
+				gotoxy(1, 21);
+				cout << endl << endl;
+				
+				do {
+					while (tu) {
 
-					if (contador_turnos == 0) {
-						fm = 6;
-						cout << "Digite la columna de la ficha a mover > ";
-						cm = checkInt(1, 8);
-						tu = false;
-					}
-					else {
-						cout << "Digite la fila de la ficha a mover > ";
-						fm = checkInt(1, 8);//filas 
-						cout << "Digite la columna de la ficha a mover > ";
-						cm = checkInt(1, 8);//columnas
-						verif = verificaJugada(fm, cm);
-						if (verif != 0) {
+						if (contador_turnos == 0) {
+							fm = 6;
+							cout << "Digite la columna de la ficha a mover > ";
+							cm = checkInt(1, 8);
 							tu = false;
 						}
-						
+						else {
+							cout << "Digite la fila de la ficha a mover > ";
+							fm = checkInt(1, 8);//filas 
+							cout << "Digite la columna de la ficha a mover > ";
+							cm = checkInt(1, 8);//columnas
+							verif = verificaJugada(fm, cm);
+							if (verif != 0) {
+								tu = false;
+							}
+
+						}
 					}
-				}
-				bool inserto = false;
-				if (_tablero->getFicha(fm, cm) == PIEZA_X) {
-					int a = NULL;
-					if ((cm != 1 && cm != 8) && _tablero->getFicha(fm - 1, cm - 1) == ' ' && _tablero->getFicha(fm - 1, cm + 1) == ' ' && contador_turnos == 0) {
-						cout << "3.1 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "[2] " << fm - 1 << ", " << cm + 1 << "  > ";
-						a = checkInt(1, 2);
-					}
-					else if ((cm > 1 && cm < 8)) {
-						if (verif == 3) {
-							cout << "3 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "[2] " << fm - 1 << ", " << cm + 1 << "  > ";
+					bool inserto = false;
+					if (_tablero->getFicha(fm, cm) == PIEZA_X) {
+						int a = NULL;
+						if ((cm != 1 && cm != 8) && _tablero->getFicha(fm - 1, cm - 1) == ' ' && _tablero->getFicha(fm - 1, cm + 1) == ' ' && contador_turnos == 0) {
+							cout << "3.1 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "[2] " << fm - 1 << ", " << cm + 1 << "  > ";
 							a = checkInt(1, 2);
 						}
-						else if (verif == 4) {// CUANDO HAY UNO VACIO Y SE PUEDE COMER EL DEL OTRO LADO
-							cout << "4 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << TAB << "[4] " << fm - 2 << ", " << cm + 2 << "  > ";
-							a = checkInt(1, 4);
+						else if ((cm > 1 && cm < 8)) {
+							if (verif == 3) {
+								cout << "3 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "[2] " << fm - 1 << ", " << cm + 1 << "  > ";
+								a = checkInt(1, 2);
+							}
+							else if (verif == 4) {// CUANDO HAY UNO VACIO Y SE PUEDE COMER EL DEL OTRO LADO
+								cout << "4 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << TAB << "[4] " << fm - 2 << ", " << cm + 2 << "  > ";
+								a = checkInt(1, 4);
+							}
+							else if (verif == 5) {// CUANDO HAY UNO VACIO Y SE PUEDE COMER EL DEL OTRO LADO
+								cout << "5 Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << TAB << "[3] " << fm - 2 << ", " << cm - 2 << "  > ";
+								a = checkInt(2, 3);
+							}
+							else if (verif == 10) {
+								cout << "10 [5] > No se se puede mover esta ficha, se encuentra atrapada" << endl;
+								a = checkInt(5, 5);
+							}
+							else if (verif == 11) {
+								cout << "11 [5] > Esta ficha esta atrapada, no se puede mover" << endl;
+								a = checkInt(5, 5);
+							}
+							else if (verif == 12) {
+								cout << "12 [5] > Esta ficha esta atrapada, no se puede mover" << endl;
+								a = checkInt(5, 5);
+							}
+							else if (verif == 13) {
+								cout << "13 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
+								a = checkInt(1, 1);
+							}
+							else if (verif == 14) {
+								cout << "14 Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << TAB << "  > ";
+								a = checkInt(2, 2);
+							}
+							else if (verif == 15) {
+								cout << "15 Moverla hacia:\n[4] " << fm - 2 << ", " << cm + 2 << TAB << "  > ";
+								a = checkInt(4, 4);
+							}
+							else if (verif == 16) {
+								cout << "16 Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "  > ";
+								a = checkInt(3, 3);
+							}
+							else if (verif == 17) {
+								cout << "17 Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "  > ";
+								a = checkInt(3, 3);
+							}
+							else if (verif == 18) {
+								cout << "18 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
+								a = checkInt(1, 1);
+							}
+							else if (verif == 19) {
+								cout << "19 Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << TAB << "  > ";
+								a = checkInt(2, 2);
+							}
+							else if (verif == 20) {
+								cout << "20 Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "[4] " << fm - 2 << ", " << cm + 2 << "  > ";
+								a = checkInt(3, 4);
+							}
+							else if (verif == 21) {
+								cout << "21 Moverla hacia:\n[4] " << fm - 2 << ", " << cm + 2 << TAB << "[4] " << "  > ";
+								a = checkInt(3, 4);
+							}
+							else if (verif == 22) {
+								cout << "22 No se se puede mover esta ficha, se encuentra atrapada \n[5]" << TAB << "  > ";
+								a = checkInt(5, 5);
+							}
+							else if (verif == 23) {
+								cout << "23 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
+								a = checkInt(1, 1);
+							}
+							else if (verif == 24) {
+								cout << "24  Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << TAB << "  > ";
+								a = checkInt(2, 2);
+							}
 						}
-						else if (verif == 5) {// CUANDO HAY UNO VACIO Y SE PUEDE COMER EL DEL OTRO LADO
-							cout << "5 Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << TAB << "[3] " << fm - 2 << ", " << cm - 2 << "  > ";
-							a = checkInt(2, 3);
-						}
-						else if (verif == 10) {
-							cout << "10 [5] > No se se puede mover esta ficha, se encuentra atrapada" << endl;
-							a = checkInt(5, 5);
-						}
-						else if (verif == 11) {
-							cout << "11 [5] > Esta ficha esta atrapada, no se puede mover" << endl;
-							a = checkInt(5, 5);
-						}
-						else if (verif == 12) {
-							cout << "12 [5] > Esta ficha esta atrapada, no se puede mover" << endl;
-							a = checkInt(5, 5);
-						}
-						else if (verif == 13) {
-							cout << "13 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
-							a = checkInt(1, 1);
-						}
-						else if (verif == 14) {
-							cout << "14 Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << TAB << "  > ";
-							a = checkInt(2, 2);
-						}
-						else if (verif == 15) {
-							cout << "15 Moverla hacia:\n[4] " << fm - 2 << ", " << cm + 2 << TAB << "  > ";
-							a = checkInt(4, 4);
-						}
-						else if (verif == 16) {
-							cout << "16 Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "  > ";
-							a = checkInt(3, 3);
-						}
-						else if (verif == 17) {
-							cout << "17 Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "  > ";
-							a = checkInt(3, 3);
-						}
-						else if (verif == 18) {
-							cout << "18 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
-							a = checkInt(1, 1);
-						}
-						else if (verif == 19) {
-							cout << "19 Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << TAB << "  > ";
-							a = checkInt(2, 2);
-						}
-						else if (verif == 20) {
-							cout << "20 Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "[4] " << fm - 2 << ", " << cm + 2 << "  > ";
-							a = checkInt(3, 4);
-						}
-						else if (verif == 21) {
-							cout << "21 Moverla hacia:\n[4] " << fm - 2 << ", " << cm + 2 << TAB << "[4] " << "  > ";
-							a = checkInt(3, 4);
-						}
-						else if (verif == 22) {
-							cout << "22 No se se puede mover esta ficha, se encuentra atrapada \n[5]" << TAB << "  > ";
-							a = checkInt(5, 5);
-						}
-						else if (verif == 23) {
-							cout << "23 Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
-							a = checkInt(1, 1);
-						}
-						else if (verif == 24) {
-							cout << "24  Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << TAB << "  > ";
-							a = checkInt(2, 2);
-						}
-					}
-					else if ((cm == 1 || cm == 8)) {
-						if (verif == 6) {
-							cout << "6 || Moverla hacia:\n[4] " << fm - 2 << ", " << cm + 2 << "  > ";
-							a = checkInt(4, 4);
-						}
-						else if (verif == 7) {
+						else if ((cm == 1 || cm == 8)) {
+							if (verif == 6) {
+								cout << "6 || Moverla hacia:\n[4] " << fm - 2 << ", " << cm + 2 << "  > ";
+								a = checkInt(4, 4);
+							}
+							else if (verif == 7) {
 								cout << "7 || Moverla hacia:\n[3] " << fm - 2 << ", " << cm - 2 << TAB << "  > ";
 								a = checkInt(3, 3);
-						}
-						else if (verif == 8) {
+							}
+							else if (verif == 8) {
 								cout << "8 ||[5]> ¡Esta ficha esta atrapada!\n ";
 								a = checkInt(5, 5);
-						}
-						else if (verif == 9) {
+							}
+							else if (verif == 9) {
 								cout << "9 ||[1] ¡Esta ficha esta atrapada!\n ";
 								a = checkInt(5, 5);
-						}
-						else if (verif == 25) {
+							}
+							else if (verif == 25) {
 								cout << "25 ||[5] ¡Esta ficha esta atrapada!\n ";
 								a = checkInt(5, 5);
-						}
-						else if (verif == 26) {
+							}
+							else if (verif == 26) {
 								cout << "26 ||[5] ¡Esta ficha esta atrapada!\n ";
 								a = checkInt(5, 5);
-						}
-						else if (verif == 1 || cm == 8) {//ahi en vez de un && es ||
+							}
+							else if (verif == 1 || cm == 8) {//ahi en vez de un && es ||
 								cout << "1 || Moverla hacia:\n[1] " << fm - 1 << ", " << cm - 1 << TAB << "  > ";
 								a = checkInt(1, 1);
+							}
+							else if (verif == 2 || cm == 1) {//ahi en vez de un && es ||
+								cout << "2 || Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << TAB << "  > ";
+								a = checkInt(2, 2);
+							}
+
 						}
-						else if (verif == 2 || cm == 1) {//ahi en vez de un && es ||
-							cout << "2 || Moverla hacia:\n[2] " << fm - 1 << ", " << cm + 1 << TAB << "  > ";
-							a = checkInt(2, 2);
+
+						switch (a) {
+						case 1:
+							fp = fm - 1;
+							cp = cm - 1;
+							if (cp == 0) {
+								_tablero->agregar(DAMA_X, fp, cp);
+								inserto = true;
+							}
+							else {
+								_tablero->agregar(PIEZA_X, fp, cp);
+								_tablero->quitar(fm, cm);
+								cls();
+								gotoxy(50, 3); color(15); cout << "Turno de " << p1->getNombre();
+								_tablero->printTablero();
+								pauseCorner();
+								inserto = true;
+							}
+							break;
+						case 2:
+							fp = fm - 1;
+							cp = cm + 1;
+							if (cp == 0) {
+								_tablero->agregar(DAMA_X, fp, cp);
+								inserto = true;
+							}
+							else {
+								_tablero->agregar(PIEZA_X, fp, cp);
+								_tablero->quitar(fm, cm);
+								cls();
+								gotoxy(50, 3); color(15); cout << "Turno de " << p1->getNombre();
+								_tablero->printTablero();
+								pauseCorner();
+								inserto = true;
+							}
+							break;
+						case 3:
+							fp = fm - 2;
+							cp = cm - 2;
+							if (cp == 0) {
+								_tablero->agregar(DAMA_X, fp, cp);
+								inserto = true;
+							}
+							else {
+								_tablero->agregar(PIEZA_X, fp, cp);
+								_tablero->quitar(fm, cm);
+								_tablero->quitar(fm - 1, cm - 1);
+								cls();
+								gotoxy(50, 3); color(15); cout << "Turno de " << p1->getNombre();
+								_tablero->printTablero();
+								pauseCorner();
+								inserto = true;
+							}
+							break;
+						case 4:
+							fp = fm - 2;
+							cp = cm + 2;
+							if (cp == 0) {
+								_tablero->agregar(DAMA_X, fp, cp);
+								inserto = true;
+							}
+							else {
+								_tablero->agregar(PIEZA_X, fp, cp);
+								_tablero->quitar(fm, cm);
+								_tablero->quitar(fm - 1, cm + 1);
+								cls();
+								gotoxy(50, 3); color(15); cout << "Turno de " << p1->getNombre();
+								_tablero->printTablero();
+								pauseCorner();
+								inserto = true;
+							}
+							break;
+						default:
+							//fp = fm;
+							//cp = cm;
+
+							//_tablero->agregar(PIEZA_X, fp, cp);
+							////_tablero->quitar(fm, cm);
+							//cls();
+							//gotoxy(50, 3); color(15); cout << "Turno de " << p1->getNombre();
+							//_tablero->printTablero();
+							//pauseCorner();
+							//inserto = true;
+							break;
 						}
+					}
+					else if (_tablero->getFicha(fm, cm) == DAMA_X) { //SI ES REINA
+
 
 					}
-
-					switch (a) {
-					case 1:
-						fp = fm - 1;
-						cp = cm - 1;
-
-						_tablero->agregar(PIEZA_X, fp, cp);
-						_tablero->quitar(fm, cm);
-						cls();
-						gotoxy(50, 3); color(15); cout << "Turno de " << p1->getNombre();
-						_tablero->printTablero();
-						pauseCorner();
-						inserto = true;
-						break;
-					case 2:
-						fp = fm - 1;
-						cp = cm + 1;
-
-						_tablero->agregar(PIEZA_X, fp, cp);
-						_tablero->quitar(fm, cm);
-						cls();
-						gotoxy(50, 3); color(15); cout << "Turno de " << p1->getNombre();
-						_tablero->printTablero();
-						pauseCorner();
-						inserto = true;
-						break;
-					case 3:
-						fp = fm - 2;
-						cp = cm - 2;
-
-						_tablero->agregar(PIEZA_X, fp, cp);
-						_tablero->quitar(fm, cm);
-						_tablero->quitar(fm - 1, cm - 1);
-						cls();
-						gotoxy(50, 3); color(15); cout << "Turno de " << p1->getNombre();
-						_tablero->printTablero();
-						pauseCorner();
-						inserto = true;
-						break;
-					case 4:
-						fp = fm - 2;
-						cp = cm + 2;
-
-						_tablero->agregar(PIEZA_X, fp, cp);
-						_tablero->quitar(fm, cm);
-						_tablero->quitar(fm - 1, cm + 1);
-						cls();
-						gotoxy(50, 3); color(15); cout << "Turno de " << p1->getNombre();
-						_tablero->printTablero();
-						pauseCorner();
-						inserto = true;
-						break;
-					default: 
-						fp = fm;
-						cp = cm;
-
-						_tablero->agregar(PIEZA_X, fp, cp);
-						//_tablero->quitar(fm, cm);
-						cls();
-						gotoxy(50, 3); color(15); cout << "Turno de " << p1->getNombre();
-						_tablero->printTablero();
-						pauseCorner();
-						inserto = true;
-						break;
+					if (verificaDobleJugada(fp, cp) && inserto) {
+						verificaOtraMovida = true;
 					}
-				}
-				else if(_tablero->getFicha(fm,cm) == DAMA_X){ //SI ES REINA
 
+				} while (verificaOtraMovida);
+				break;
+				case 2:
+					archivo.open("contadorTurnos.txt", ios::out);
+					archivo << "0";
+					archivo.close();
+					juego = false;
+					break;
 
-				}
-				if (verificaDobleJugada(fp,cp) && inserto) {
-					verificaOtraMovida = true;
-				}
-
-			} while (verificaOtraMovida);
+				case 3:
+					archivo.open("partidaGuardada.txt", ios::in);
+					if (archivo.good()) {
+						gotoxy(0,22);
+						cout << "Ya existe una partida guardada!"<<endl;
+						cout << "Desea continuar jugando? (1)Si - (0)No";
+						int continuar = checkInt(0,1);
+						if (continuar == 0) {
+							juego = false;
+						}
+					}
+					else {
+						guardaPartida();
+						contador_turnos++;
+						
+						archivo.open("contadorTurnos.txt", ios::out);
+						archivo << contador_turnos;
+						archivo.close();
+						juego = false;
+					}
+					archivo.close();
+					break;
+			}
 
 			/*_tablero->agregar(FELIZ, fp, cp);
 			_tablero->quitar(fm, cm);
@@ -253,83 +322,25 @@ void Juego::jugar(){
 			pauseCorner();*/
 		}
 		else {
-			//computadora
-			gotoxy(50, 3); color(15); cout << "Turno de La computadora";
-			if (contador_turnos == 1) {
-				bool co = true;
-				int cr;
-				do {
-					cr = 3 + rand() % 7;
-					if ((cr % 2 != 0)) {
-						co = false;
-					}
-				} while (co);
-				int r;
-				co = true;
-				do {
-					r = 1 + rand() % 6;
-					if ((r % 2 == 0)) {
-						co = false;
-					}
-				} while (co);
-				color(10); gotoxy(1, 20); cout << "\nAnalizando jugada ...\n";
-				for (int i = 0; i < 3; i++) {
-					Sleep(300);
-				}
-				_tablero->agregar(PIEZA_O, 4, r);
-				_tablero->quitar(3, cr);
-				cls();
+			
+			if (juego != false) {
+				//computadora
 				gotoxy(50, 3); color(15); cout << "Turno de La computadora";
-				_tablero->printTablero();
-				pauseCorner();
-			}
-			else {
-				bool co = true;
-				int cr;
-				int fr;
-				bool defensa1 = false;
-				bool ataque1 = false;
-				int xf = 3, xc = 0;
-
-				for (int i = 0; i <= 6; i += 2) {
-					if (_tablero->getFicha(3, i) == ' ') {
-						if (_tablero->getFicha(3, i + 2) == PIEZA_X || _tablero->getFicha(3, i - 2) == PIEZA_X) {
-							defensa1 = true;
-							xc = i;
-						}
-					}
-				}
-
-				int r;
-				co = true;
-				r = 1 + rand() % 2;
-				if (r == 1) {
-					cr = xc - 1;
+				if (contador_turnos == 1) {
+					_estrategia->setEstrategia(_aleatoria);
+					_estrategia->interfazRespuesta(_tablero);
 				}
 				else {
-					cr = xc + 1;
+					bool estrategia;
+					if (estrategia /*si la estrategia es defensa*/) {
+						_estrategia->setEstrategia(_defensa);
+						_estrategia->interfazRespuesta(_tablero);
+					}
+					else { /*Si la estrategia es ataque*/
+						_estrategia->setEstrategia(_ataque);
+						_estrategia->interfazRespuesta(_tablero);
+					}
 				}
-				color(10); gotoxy(1, 20); cout << "\nAnalizando jugada ...\n";
-				for (int i = 0; i < 3; i++) {
-					Sleep(300);
-				}
-				if (defensa1) {
-					_tablero->agregar(PIEZA_O, xf, xc);
-					_tablero->quitar(2, cr);
-					cls();
-					_tablero->printTablero();
-					pauseCorner();
-				}
-				if (ataque1) {
-					_tablero->agregar(PIEZA_O, 4, r);
-					_tablero->quitar(3, cr);
-					cls();
-					gotoxy(50, 3); color(15); cout << "Turno de La computadora";
-					_tablero->printTablero();
-					pauseCorner();
-				}
-
-
 			}
 		}
 		contador_turnos++;
@@ -505,6 +516,68 @@ bool Juego::verificaDobleJugada(int fp, int cp){
 	return false;
 }
 
-void Juego::guardaPartida(ofstream& archivo)
-{
+void Juego::guardaPartida(){
+	ofstream archivo;
+	archivo.open("partidaGuardada.txt", ios::out);
+	archivo << _tablero->toString();
+	archivo.close();
+
+	archivo.open("nombreGuardado.txt", ios::out);
+	archivo << p1->getNombre();
+	archivo.close();
+}
+
+bool Juego::cargarPartida(){
+	ifstream archivo;
+	string dato;
+	char ficha;
+	int fila, columna;
+	archivo.open("partidaGuardada.txt", ios::in);
+	bool y = false;
+	if (archivo.good()) {
+		y = true;
+	}
+	archivo.close();
+	if (!y) {
+		gotoxy(0, 22);
+		cout << "No hay partidas guardadas aun!" << endl;
+		pauseCorner();
+		return false;
+	}
+	else {
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				_tablero->quitar(i + 1, j + 1);
+			}
+		}
+		archivo.open("partidaGuardada.txt", ios::in);
+		if (archivo.is_open()) {
+			while (!(archivo.eof())) {
+				getline(archivo, dato, TAB);
+				if (dato == " ") {
+					ficha = ' ';
+				}
+				else {
+					ficha = stringXchar(dato);
+				}
+				getline(archivo, dato, TAB);
+				fila = stringXint(dato);
+				getline(archivo, dato, END);
+				columna = stringXint(dato);
+				_tablero->agregar(ficha, fila + 1, columna + 1);
+			}
+		}
+		archivo.close();
+
+		archivo.open("nombreGuardado.txt", ios::in);
+		if (archivo.is_open()) {
+			while (!(archivo.eof())) {
+				getline(archivo, dato);
+				p1 = new jugador(dato);
+			}
+		}
+		archivo.close();
+		remove("partidaGuardada.txt");
+		return true;
+	}
 }

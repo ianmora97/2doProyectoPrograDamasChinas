@@ -81,11 +81,15 @@ void control::options() {
 
 	while (menu) {
 		printMenu();
+		fstream archivo;
 		color(15); opc = mueveFlechas();
 		switch (opc) {
 		case 1:
 			cls();
 			game->pideNombre();
+			archivo.open("contadorTurnos.txt", ios::out);
+			archivo << "0";
+			archivo.close();
 			pauseCorner();
 			game->jugar();
 			cls();
@@ -111,7 +115,13 @@ void control::options() {
 			break;
 		case 3:
 			cls();
+			if (game->cargarPartida()) {
+				gotoxy(45, 15); color(10); cout << "Cargando partida... " << endl;
 
+				Sleep(2000);
+				cls();
+				game->jugar();
+			}
 			cls();
 			break;
 		case 4:

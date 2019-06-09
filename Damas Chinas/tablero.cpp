@@ -67,6 +67,25 @@ bool tablero::movidaLegal(int f, int c) { return (0); }
 char tablero::getFicha(int f, int c){
 	return fichas[f-1][c-1];
 }
+string tablero::toString(bool o){
+	stringstream s;
+	if (o) {
+		for (int i = 0; i < tam; i++) {
+			for (int j = 0; j < tam; j++) {
+				s << fichas[i][j] << TAB << i <<TAB << j <<END;
+			}
+		}
+	}
+	else {
+		for (int i = 0; i < tam; i++) {
+			for (int j = 0; j < tam; j++) {
+				s << "[" << fichas[i][j] << "] ";
+			}
+			s << END;
+		}
+	}
+	return s.str();
+}
 void tablero::agregar(char f, int fila, int columna) {
 	if (existe(fila,columna)) {
 		if (fichas[fila-1][columna-1] == ' ') {
