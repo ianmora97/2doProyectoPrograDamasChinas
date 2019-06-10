@@ -5,6 +5,8 @@ class estrategia{
 public:
 	virtual void algoritmo(tablero*) = 0;
 	virtual string getEstrategia() const = 0;
+protected:
+	string tipo;
 };
 
 class defensa : public estrategia{

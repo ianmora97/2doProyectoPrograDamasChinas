@@ -1,25 +1,33 @@
 #include "estrategia.h"
 
-defensa::defensa(){}
+defensa::defensa() { tipo = "Defensa"; }
 defensa::~defensa(){}
-
-void defensa::algoritmo(tablero* _tablero){
-	gotoxy(50, 3); color(15); cout << "Turno de La computadora";
-	_tablero->printTablero();
-}
-string defensa::getEstrategia() const { return "Defensa"; }
-
-ataque::ataque(){}
+ataque::ataque() { tipo = "Ataque"; }
 ataque::~ataque(){}
+aleatoria::aleatoria() { tipo = "Aleatoria"; }
+aleatoria::~aleatoria(){}
+selectivo::selectivo() { tipo = "Selectivo"; }
+selectivo::~selectivo(){}
+
+string ataque::getEstrategia() const { return tipo; }
+string selectivo::getEstrategia() const { return tipo; }
+string defensa::getEstrategia() const { return tipo; }
+string aleatoria::getEstrategia() const { return tipo; }
 
 void ataque::algoritmo(tablero* _tablero){
 	gotoxy(50, 3); color(15); cout << "Turno de La computadora";
 	_tablero->printTablero();
 }
-string ataque::getEstrategia() const { return "Ataque"; }
 
-aleatoria::aleatoria(){}
-aleatoria::~aleatoria(){}
+void selectivo::algoritmo(tablero*){
+
+}
+
+
+void defensa::algoritmo(tablero* _tablero){
+	gotoxy(50, 3); color(15); cout << "Turno de La computadora";
+	_tablero->printTablero();
+}
 
 void aleatoria::algoritmo(tablero* _tablero){
 	bool co = true;
@@ -45,7 +53,7 @@ void aleatoria::algoritmo(tablero* _tablero){
 	_tablero->printTablero();
 	pauseCorner();
 }
-string aleatoria::getEstrategia() const { return "Aleatoria"; }
+
 
 respuesta::respuesta(){}
 respuesta::respuesta(estrategia* e) : _estrategia(e){}
@@ -60,11 +68,4 @@ string respuesta::toString() {
 	return _estrategia->getEstrategia();
 }
 
-selectivo::selectivo(){}\
-selectivo::~selectivo(){}
 
-void selectivo::algoritmo(tablero*){
-
-}
-
-string selectivo::getEstrategia() const { return "Selectivo"; }

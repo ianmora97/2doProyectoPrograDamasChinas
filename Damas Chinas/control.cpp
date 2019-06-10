@@ -37,12 +37,12 @@ void control::printMenu() {
 	cout << "   Cargar Partida\n";
 	cout << "\t\t\t";
 	cout << char(186) << endl;
-	cout << "\t\t\t";
+	cout << "\t\t\t";									  
 	cout << char(186);
 	color(13);
 	cout << "  [4]";
 	color(15);
-	cout << "   HighScores\n";
+	cout << "   Ver partidas guardadas\n";
 	cout << "\t\t\t";
 	cout << char(186) << endl;
 	cout << "\t\t\t";

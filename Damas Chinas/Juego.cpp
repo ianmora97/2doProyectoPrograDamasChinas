@@ -52,7 +52,7 @@ void Juego::jugar(){
 	string datoContador;
 	int contador_turnos = 0;
 	ifstream archivo;
-	archivo.open("contadorTurnos.txt", ios::in);
+	archivo.open("save/contadorTurnos.txt", ios::in);
 	if (archivo.is_open()) {
 		while (!(archivo.eof())) {
 			getline(archivo, datoContador);
@@ -313,14 +313,14 @@ void Juego::jugar(){
 				} while (verificaOtraMovida);
 				break;
 				case 2:
-					archivo.open("contadorTurnos.txt", ios::out);
+					archivo.open("save/contadorTurnos.txt", ios::out);
 					archivo << "0";
 					archivo.close();
 					juego = false;
 					break;
 
 				case 3:
-					archivo.open("partidaGuardada.txt", ios::in);
+					archivo.open("save/partidaGuardada.txt", ios::in);
 					if (archivo.good()) {
 						gotoxy(0,22);
 						cout << "Ya existe una partida guardada!"<<endl;
@@ -334,7 +334,7 @@ void Juego::jugar(){
 						guardaPartida();
 						contador_turnos++;
 						
-						archivo.open("contadorTurnos.txt", ios::out);
+						archivo.open("save/contadorTurnos.txt", ios::out);
 						archivo << contador_turnos;
 						archivo.close();
 						juego = false;
@@ -350,12 +350,6 @@ void Juego::jugar(){
 					break;
 				default: break;
 			}
-
-			/*_tablero->agregar(FELIZ, fp, cp);
-			_tablero->quitar(fm, cm);
-			cls();
-			_tablero->printTablero();
-			pauseCorner();*/
 		}
 		else {
 			if (juego != false) {
@@ -537,25 +531,25 @@ bool Juego::verificaDobleJugada(int fp, int cp){
 
 void Juego::guardaPartida(){
 	ofstream archivo;
-	archivo.open("partidaGuardada.txt", ios::out);
+	archivo.open("save/partidaGuardada.txt", ios::out);
 	archivo << _tablero->toString();
 	archivo.close();
 
-	archivo.open("nombreGuardado.txt", ios::out);
+	archivo.open("save/nombreGuardado.txt", ios::out);
 	archivo << p1->getNombre();
 	archivo.close();
 
-	archivo.open("estrategiaSeleccionada.txt", ios::out);
+	archivo.open("save/estrategiaSeleccionada.txt", ios::out);
 	archivo << _estrategia->toString();
 	archivo.close();
 }
 
 bool Juego::cargarPartida(){
-	ifstream archivo;
+	fstream archivo;
 	string dato;
 	char ficha;
 	int fila, columna;
-	archivo.open("partidaGuardada.txt", ios::in);
+	archivo.open("save/partidaGuardada.txt", ios::in);
 	bool y = false;
 	if (archivo.good()) {
 		y = true;
@@ -573,7 +567,7 @@ bool Juego::cargarPartida(){
 				_tablero->quitar(i + 1, j + 1);
 			}
 		}
-		archivo.open("partidaGuardada.txt", ios::in);
+		archivo.open("save/partidaGuardada.txt", ios::in);
 		if (archivo.is_open()) {
 			while (!(archivo.eof())) {
 				getline(archivo, dato, TAB);
@@ -592,7 +586,7 @@ bool Juego::cargarPartida(){
 		}
 		archivo.close();
 
-		archivo.open("nombreGuardado.txt", ios::in);
+		archivo.open("save/nombreGuardado.txt", ios::in);
 		if (archivo.is_open()) {
 			while (!(archivo.eof())) {
 				getline(archivo, dato);
@@ -604,24 +598,28 @@ bool Juego::cargarPartida(){
 		return true;
 	}
 	string est;
-	archivo.open("estrategiaSeleccionada.txt", ios::in);
+	archivo.open("save/estrategiaSeleccionada.txt", ios::in);
 	if (archivo.is_open()) {
 		while (!(archivo.eof())) {
 			getline(archivo, est);
+			if (est == "Aleatoria") {
+				_estrategia->setEstrategia(_aleatoria);
+			}
+			else if (est == "Ataque") {
+				_estrategia->setEstrategia(_ataque);
+			}
+			else if (est == "Defensa") {
+				_estrategia->setEstrategia(_defensa);
+			}
+			else if (est == "Selectivo") {
+				_estrategia->setEstrategia(_selectivo);
+			}
 		}
 	}
-	if (est == "Aleatoria") {
-		_estrategia->setEstrategia(_aleatoria);
+	else {
+		cout << "No se ha podido abrir el archivo"<<endl;
 	}
-	else if (est == "Ataque") {
-		_estrategia->setEstrategia(_ataque);
-	}
-	else if (est == "Defensa") {
-		_estrategia->setEstrategia(_defensa);
-	}
-	else if (est == "Selectivo") {
-		_estrategia->setEstrategia(_selectivo);
-	}
+	
 	archivo.close();
-	remove("partidaGuardada.txt");
+	remove("save/partidaGuardada.txt");
 }
